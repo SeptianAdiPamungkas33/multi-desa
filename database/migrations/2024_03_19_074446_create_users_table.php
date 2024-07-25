@@ -23,7 +23,9 @@ return new class extends Migration
             $table->foreign('role_id')->references('id')->on('roles');
 
             $table->unsignedBigInteger('desa_id')->nullable();
-            $table->foreign('desa_id')->references('id')->on('desas')->nullOnDelete();
+            $table->string('nama_desa')->nullable();
+
+            $table->unsignedBigInteger('kecamatan_id')->nullable();
 
             // $table->bigInteger('role_id')->unsigned();
             // $table->foreign('role_id')->references('role_id')->on('roles');

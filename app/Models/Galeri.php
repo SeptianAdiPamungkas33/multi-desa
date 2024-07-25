@@ -12,7 +12,7 @@ class Galeri extends Model
     protected $table = 'galeris';
 
     protected $fillable = [
-        'judul_galeri', 'image', 'website_id', 'status', 'desa_id',
+        'judul_galeri', 'image', 'website_id', 'status',
     ];
 
     public function getImageAttribute($value)

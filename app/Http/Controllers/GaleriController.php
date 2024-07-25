@@ -42,7 +42,6 @@ class GaleriController extends Controller
         }
 
         $validatedData['website_id'] = $website->id;
-        $validatedData['desa_id'] = Auth::user()->desa_id;
 
         // Create the Galeri record
         $galeri = Galeri::create($validatedData);

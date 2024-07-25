@@ -19,9 +19,6 @@ return new class extends Migration
             $table->string('gambar');
             $table->string('status')->default('aktif');
 
-            $table->unsignedBigInteger('desa_id');
-            $table->foreign('desa_id')->references('id')->on('desas');
-
             $table->unsignedBigInteger('kategori_id');
             $table->foreign('kategori_id')->references('id')->on('kategoris');
 

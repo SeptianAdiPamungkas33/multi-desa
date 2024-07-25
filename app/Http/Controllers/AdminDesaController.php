@@ -53,6 +53,7 @@ class AdminDesaController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
 
         $user = User::where('username', $request->username)->first();
 
@@ -71,7 +72,9 @@ class AdminDesaController extends Controller
             'nomor_telepon' => 'nullable',
             'password' => 'required',
             'email' => 'required|email|unique:users,email',
-            'desa_id' => 'required|exists:desas,id',
+            'desa_id' => 'required',
+            'nama_desa' => 'required',
+            'kecamatan_id' => 'required',
         ]);
 
         // Pengecekan apakah desa sudah memiliki admin
@@ -80,14 +83,10 @@ class AdminDesaController extends Controller
             return redirect()->route('admin-desa.index')->with('error', 'Desa ini sudah memiliki admin');
         }
 
-        $result = User::create([
-            'username' => $request->username,
-            'nomor_telepon' => $request->nomor_telepon,
-            'password' => Hash::make($request->password),
-            'email' => $request->email,
-            'role_id' => 2,
-            'desa_id' => $request->desa_id,
-        ]);
+        $validatedData['role_id'] = 2;
+        $validatedData['password'] = Hash::make($request->password);
+
+        $result = User::create($validatedData);
 
         $website = Website::create([
             'url' => $request->username,

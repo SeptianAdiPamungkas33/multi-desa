@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('url');
 
             $table->bigInteger('desa_id')->unsigned();
-            $table->foreign('desa_id')->references('id')->on('desas');
 
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

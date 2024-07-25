@@ -28,13 +28,11 @@ class PostinganController extends Controller
 
     public function create()
     {
-        $desa = Desa::all();
         $kategori = Kategori::all();
 
         return view('postingan.create', [
             'title' => 'Tambah Data Postingan',
             'case' => 'post',
-            'desa' => $desa,
             'kategori' => $kategori,
         ]);
     }
@@ -70,7 +68,6 @@ class PostinganController extends Controller
 
         // Assign desa_id from the current authenticated user
         $validatedData['website_id'] = $website->id;
-        $validatedData['desa_id'] = Auth::user()->desa_id;
 
         // Create the Postingan record
         $result = Postingan::create($validatedData);
@@ -85,13 +82,11 @@ class PostinganController extends Controller
     public function edit($id)
     {
         $postingan = Postingan::findOrFail($id);
-        $desa = Desa::all();
         $kategori = Kategori::all();
 
         return view('postingan.edit', [
             'title' => 'Edit Data Postingan',
             'postingan' => $postingan,
-            'desa' => $desa,
             'kategori' => $kategori,
         ]);
     }

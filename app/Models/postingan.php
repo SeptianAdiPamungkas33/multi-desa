@@ -14,7 +14,6 @@ class Postingan extends Model
     protected $fillable = [
         'judul',
         'isi',
-        'desa_id',
         'kategori_id',
         'website_id',
         'gambar',

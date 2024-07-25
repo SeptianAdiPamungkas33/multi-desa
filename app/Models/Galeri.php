@@ -12,24 +12,26 @@ class Galeri extends Model
     protected $table = 'galeris';
 
     protected $fillable = [
-        'judul_galeri', 'image', 'website_id',
+        'judul_galeri', 'image', 'website_id', 'status', 'desa_id',
     ];
 
-    // Accessor untuk mendapatkan URL gambar yang benar
     public function getImageAttribute($value)
     {
-        return url('images/' . $value); // Menggabungkan path dengan direktori 'images'
+        return url('images/' . $value);
     }
 
-    // Mutator untuk menyimpan hanya nama file gambar
     public function setImageAttribute($value)
     {
         $this->attributes['image'] = basename($value);
     }
 
-    // Relasi dengan model Website
     public function website()
     {
         return $this->belongsTo(Website::class);
+    }
+
+    public function media()
+    {
+        return $this->belongsToMany(Media::class);
     }
 }

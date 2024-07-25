@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('container')
-<div class="m-64 mt-20 p-4">
+<div class="ml-64 mt-20 p-4 w-10/12">
     <p class="text-xl font-bold uppercase mb-8">Manajemen Postingan</p>
     <!-- Start coding here -->
     <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
@@ -28,7 +28,7 @@
                 </a>
             </div>
         </div>
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto w-full">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -36,28 +36,29 @@
                         <th scope="col" class="px-4 py-3">Isi</th>
                         <th scope="col" class="px-4 py-3">Desa</th>
                         <th scope="col" class="px-4 py-3">Kategori</th>
-                        <th scope="col" class="px-4 py-3">Gambar</th>
-                        <th scope="col" class="px-4 py-3">Video</th>
-                        <th scope="col" class="px-4 py-3">
+                        <th scope="col" class="px-4 py-3">Media</th>
+                        <th scope="col" class="px-4 py-3">Status</th>
+                        <th scope="col" class="px-4 py-3">Action
                             <span class="sr-only">Actions</span>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($postingan as $item)
-                    <tr class="border-b dark:border-gray-700">
-                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$item->judul}}</th>
-                        <td class="px-4 py-3 max-w-[100px]">{{ \Illuminate\Support\Str::limit($item->isi, 100, $end='...') }}</td>
+                    <tr class="border-b dark:border-gray-700 w-fit">
+                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{!! \Illuminate\Support\Str::limit($item->judul, 30, $end='...') !!}</th>
+                        <!-- <td class="px-4 py-3 w-[2000px]">{{ \Illuminate\Support\Str::limit($item->isi, 30, $end='...') }}</td> -->
+                        <td class="px-4 py-3 w-[200px]">{!! \Illuminate\Support\Str::limit($item->isi, 30, $end='...') !!}</td>
                         <td class="px-4 py-3">{{$item->desa->nama}}</td>
                         <td class="px-4 py-3">{{$item->kategori->nama}}</td>
                         @if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $item->gambar))
-                        <td class="px-4 py-3">
-                            <img src="{{ $item->gambar }}" class="w-20 h-20 object-cover">
+                        <td class="px-4 py-3 w-40 h-20">
+                            <img src="{{ $item->gambar }}" class="w-40 h-20 object-cover">
                         </td>
                         @elseif (preg_match('/\.mp4$/i', $item->gambar))
                         <td class="px-4 py-3">
-                            <video controls>
-                                <source src="{{ $item->gambar }}" type="video/mp4">
+                            <video controls class="w-40 h-20">
+                                <source src="{{ $item->gambar }}" class="w-20 h-20" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         </td>
@@ -66,7 +67,23 @@
                             <span class="text-gray-500">No media available</span>
                         </td>
                         @endif
-                        <td class="px-4 py-3 flex items-center justify-end">
+                        <!-- <td class="mb-5">
+                            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <option class="">Aktif</option>
+                                <option class="">Inactive</option>
+                            </select>
+                        </td> -->
+                        <td class="mb-5">
+                            <form action="{{ route('postingan.updateStatus', $item->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <select name="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required onchange="this.form.submit()">
+                                    <option value="aktif" {{ $item->status == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                                    <option value="inaktif" {{ $item->status == 'inaktif' ? 'selected' : '' }}>Inactive</option>
+                                </select>
+                            </form>
+                        </td>
+                        <td class="px-4 py-3 w-full h-full flex items-center justify-end">
                             <button id="toggle{{$item->id}}" data-dropdown-toggle="toggles{{$item->id}}" class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100" type="button">
                                 <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
@@ -89,7 +106,6 @@
                         </td>
                     </tr>
                     @endforeach
-
                 </tbody>
             </table>
         </div>

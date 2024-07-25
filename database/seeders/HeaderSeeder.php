@@ -13,26 +13,51 @@ class HeaderSeeder extends Seeder
      */
     public function run(): void
     {
-        Header::Create([
-            'title' => 'Website Matesih',
+        // Header::Create([
+        //     'title' => 'Website Matesih',
+        //     'nama_menu1' => 'Beranda',
+        //     'nama_menu2' => 'About US',
+        //     'nama_menu3' => 'Layanan',
+        //     'nama_menu4' => 'Artikel',
+        //     'nama_menu5' => 'Galeri',
+        //     'nama_menu6' => 'Potensi',
+        //     'website_id' => '1',
+        // ]);
+
+        $header = Header::create([
+            'title' => 'Matesih',
             'nama_menu1' => 'Beranda',
-            'nama_menu2' => 'About US',
+            'nama_menu2' => 'Tentang Kami',
+            'nama_menu3' => 'Layanan',
+            'nama_menu4' => 'Galeri',
+            'nama_menu5' => 'Artikel',
+            'nama_menu6' => 'Potensi Desa',
+            'image' => 'img/default.png',
+            'website_id' => 1,
+        ]);
+
+        $header = Header::create([
+            'title' => 'Ngadiluwih',
+            'nama_menu1' => 'Beranda',
+            'nama_menu2' => 'Tentang Kami',
             'nama_menu3' => 'Layanan',
             'nama_menu4' => 'Artikel',
             'nama_menu5' => 'Galeri',
-            'nama_menu6' => 'Potensi',
-            'website_id' => '1',
+            'nama_menu6' => 'Potensi Desa',
+            'image' => 'img/default.png',
+            'website_id' => 2,
         ]);
 
-        Header::Create([
-            'title' => 'Website Ngadiluwih',
-            'nama_menu1' => 'About',
-            'nama_menu2' => 'Layanan',
-            'nama_menu3' => 'Artikel',
-            'nama_menu4' => 'Galeri',
-            'nama_menu5' => 'Potensi',
-            'nama_menu6' => 'Kontak',
-            'website_id' => '2',
+        $header = Header::create([
+            'title' => 'Jumantono',
+            'nama_menu1' => 'Beranda',
+            'nama_menu2' => 'Tentang Kami',
+            'nama_menu3' => 'Layanan',
+            'nama_menu4' => 'Artikel',
+            'nama_menu5' => 'Galeri',
+            'nama_menu6' => 'Potensi Desa',
+            'image' => 'img/default.png',
+            'website_id' => 3,
         ]);
     }
 }

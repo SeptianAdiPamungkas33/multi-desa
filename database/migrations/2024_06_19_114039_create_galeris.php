@@ -15,10 +15,14 @@ return new class extends Migration
             $table->id();
 
             $table->string('judul_galeri');
-            $table->string('image')->nullable();
+            // $table->string('image')->nullable();
+            $table->string('status')->default('aktif');
 
             $table->unsignedBigInteger('website_id');
             $table->foreign('website_id')->references('id')->on('website');
+
+            $table->unsignedBigInteger('desa_Id');
+            $table->foreign('desa_Id')->references('id')->on('desas');
 
             $table->timestamps();
         });

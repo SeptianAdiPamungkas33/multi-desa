@@ -15,22 +15,27 @@ class KategoriSeeder extends Seeder
     {
         Kategori::create([
             'nama' => 'Pendidikan',
+            'website_id' => 1,
         ]);
 
         Kategori::create([
             'nama' => 'Kesehatan',
+            'website_id' => 1,
         ]);
 
         Kategori::create([
             'nama' => 'Pariwisata',
+            'website_id' => 1,
         ]);
 
         Kategori::create([
             'nama' => 'Olahraga',
+            'website_id' => 1,
         ]);
 
         Kategori::create([
             'nama' => 'Budaya',
+            'website_id' => 1,
         ]);
     }
 }

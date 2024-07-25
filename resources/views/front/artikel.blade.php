@@ -45,26 +45,54 @@
     <!-- Header Section -->
     @include('front.includes.navbar')
 
-    <!-- Carousel Section -->
-    @include('front.includes.slider')
-    <!-- End Carousel Section -->
-
-    <!-- BEGIN TENTANG KAMI SECTION -->
-
+    <!-- BEGIN ARTIKEL SECTION -->
     <div class="items-center justify-center w-full overflow-x-hidden mx-8 pt-0 lg:pt-12 pb-12 xl:pt-12 xl:pb-24">
-        <div class="container w-full items-center h-full py-12">
-            <div class="relative z-50 flex items-center justify-center w-full h-full">
-                <img src="{{ asset($postingan->gambar) }}" class="w-4/12">
+        <div class="flex flex-col w-full text-center font-bold">
+            <p class="text-black text-6xl pb-8">{{$website->header->nama_menu4}}</p>
+        </div>
+        <div class="w-full flex flex-wrap justify-center items-center gap-4">
+            @foreach($website->postingan->where('status', 'aktif') as $postingans)
+            <div class="w-[300px] flex-wrap flex items-center p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div class="w-full p-6">
+                    @if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $postingans->gambar))
+                    <div class="px-4 py-3">
+                        <img src="{{ asset($postingans->gambar) }}" class="w-40 h-40 object-cover object-center">
+                    </div>
+                    @elseif (preg_match('/\.mp4$/i', $postingans->gambar))
+                    <div class="px-4 py-3">
+                        <video controls class="w-40 h-40 object-cover object-center">
+                            <source src="{{ asset($postingans->gambar) }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    @else
+                    <div class="px-4 py-3">
+                        <span class="text-gray-500">No media available</span>
+                    </div>
+                    @endif
+                </div>
+
+                <div class="w-[300px] h-[40px] py-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white overflow-hidden">
+                    {{$postingans->judul}}
+                </div>
+                <div class="w-[300px] h-[40px] py-1 font-normal text-yellow-400 overflow-hidden">
+                    {{$postingans->kategori->nama}}
+                </div>
+                <div class="w-[300px] h-[58px] py-1 font-normal text-gray-700 dark:text-gray-400 overflow-hidden">
+                    {!! $postingans->isi !!}
+                </div>
+
+                <a href="/{{$website->url}}/{{$website->header->nama_menu5}}/{{$postingans->id}}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Read more
+                    <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                    </svg>
+                </a>
             </div>
-            <div class="flex flex-col items-center py-2 w-full text-center lg:items-start lg:w-full lg:py-6 xl:py-6 lg:text-left">
-                <h1 class="relative mb-4 text-3xl font-black leading-tight text-gray-900 sm:text-6xl xl:mb-8">{{ $postingan->judul }}</h1>
-                <p class="pr-0 mb-8 text-base text-gray-600 sm:text-lg xl:text-xl lg:pr-20">{{($postingan->kategori->nama) }}</p>
-                <p class="pr-0 mb-8 text-base text-gray-600 sm:text-lg xl:text-xl lg:pr-20">{{($postingan->isi) }}</p>
-            </div>
+            @endforeach
         </div>
     </div>
-
-    <!-- TENTANG KAMI SECTION END -->
+    <!-- TENTANG ARTIKEL END -->
 
     @include('front.includes.footer')
 

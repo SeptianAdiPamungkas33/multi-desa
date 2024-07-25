@@ -17,13 +17,13 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('email');
             $table->text('password');
-            $table->string('nomor_telepon');
+            $table->string('nomor_telepon')->nullable();
 
             $table->unsignedBigInteger('role_id');
             $table->foreign('role_id')->references('id')->on('roles');
 
-            $table->unsignedBigInteger('desa_id');
-            $table->foreign('desa_id')->references('id')->on('desas');
+            $table->unsignedBigInteger('desa_id')->nullable();
+            $table->foreign('desa_id')->references('id')->on('desas')->nullOnDelete();
 
             // $table->bigInteger('role_id')->unsigned();
             // $table->foreign('role_id')->references('role_id')->on('roles');

@@ -14,16 +14,19 @@ class WebsiteSeeder extends Seeder
     public function run(): void
     {
         Website::Create([
-            'url' => 'Website Matesih',
+            'url' => 'matesih',
             'desa_id' => '1',
+            'user_id' => '2',
         ]);
         Website::Create([
-            'nama' => 'Website Ngadiluwih',
+            'url' => 'ngadiluwih',
             'desa_id' => '2',
+            'user_id' => '3',
         ]);
         Website::Create([
-            'nama' => 'Website Plosorejo',
+            'url' => 'jumantono',
             'desa_id' => '3',
+            'user_id' => '4',
         ]);
     }
 }

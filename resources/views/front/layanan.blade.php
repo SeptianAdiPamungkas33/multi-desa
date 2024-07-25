@@ -44,49 +44,48 @@
     <!-- Navbar Section -->
     @include('front.includes.navbar')
 
-    <!-- Carousel Section -->
-    @include('front.includes.slider')
-    <!-- End Carousel Section -->
-
     <!-- Content Section -->
-    <div class="w-full mt-12 flex flex-col mx-32">
+    <div class="w-full mt-12 flex flex-col">
+        <div class="flex flex-col w-full text-center font-bold">
+            <p class="text-black text-6xl pb-8">{{$website->header->nama_menu3}}</p>
+        </div>
         <div class="items-center justify-center w-full overflow-x-hidden pt-0 lg:py-5">
-            <div class="container w-full items-center justify-between h-full lg:flex-row py-16">
+            <div class=" w-full items-center justify-between h-full lg:flex-row py-16">
                 <div class="relative flex items-center justify-center w-full h-full">
-                    <div class="container relative w-full flex items-center justify-center">
+                    <div class="relative w-full flex items-center justify-center">
                         <img src="{{ url('img/ktp.png') }}" class="w-5/12 lg:h-full">
                     </div>
                 </div>
-                <div class="flex flex-col items-center w-full pt-5 text-center lg:items-start lg:w-full lg:pt-5 xl:pt-10 lg:text-left">
-                    <h1 class="relative text-2xl font-black leading-tight text-gray-900 sm:text-4xl">{{ $website->layanans->judul1 }}</h1>
-                    <p class="pr-0 text-base text-gray-600 sm:text-lg xl:text-xl lg:pr-20">{{ $website->layanans->deskripsi1 }}</p>
+                <div class="flex flex-col items-center w-full pt-5 text-center lg:items-start lg:w-full lg:pt-5 xl:pt-10 xl:px-40 lg:text-left">
+                    <h1 class="relative text-2xl font-black leading-tight text-gray-900 sm:text-4xl">{{ $website->layanan->judul1 }}</h1>
+                    <p class="pr-0 text-base text-gray-600 sm:text-lg xl:text-xl lg:pr-20">{{ $website->layanan->deskripsi1 }}</p>
                 </div>
             </div>
         </div>
         <div class="items-center justify-center w-full overflow-x-hidden pt-0 lg:py-5">
-            <div class="container w-full items-center justify-between h-full lg:flex-row py-16">
+            <div class="w-full items-center justify-between h-full lg:flex-row py-16">
                 <div class="relative flex items-center justify-center w-full h-full">
-                    <div class="container relative w-full flex items-center justify-center">
+                    <div class="relative w-full flex items-center justify-center">
                         <img src="{{ url('img/kk.png') }}" class="w-5/12 lg:h-full">
                     </div>
                 </div>
-                <div class="flex flex-col items-center w-full pt-5 text-center lg:items-start lg:w-full lg:pt-5 xl:pt-10 lg:text-left">
-                    <h1 class="relative text-2xl font-black leading-tight text-gray-900 sm:text-4xl">{{ $website->layanans->judul2 }}</h1>
-                    <p class="pr-0 text-base text-gray-600 sm:text-lg xl:text-xl lg:pr-20">{{ $website->layanans->deskripsi2 }}</< /p>
+                <div class="flex flex-col items-center w-full pt-5 text-center lg:items-start lg:w-full lg:pt-5 xl:pt-10 xl:px-40 lg:text-left">
+                    <h1 class="relative text-2xl font-black leading-tight text-gray-900 sm:text-4xl">{{ $website->layanan->judul2 }}</h1>
+                    <p class="pr-0 text-base text-gray-600 sm:text-lg xl:text-xl lg:pr-20">{{ $website->layanan->deskripsi2 }}</< /p>
                     </p>
                 </div>
             </div>
         </div>
         <div class="items-center justify-center w-full overflow-x-hidden pt-0 lg:py-5">
-            <div class="container w-full items-center justify-between h-full lg:flex-row py-16">
+            <div class="w-full items-center justify-between h-full lg:flex-row py-16">
                 <div class="relative flex items-center justify-center w-full h-full">
-                    <div class="container relative w-full flex items-center justify-center">
+                    <div class="relative w-full flex items-center justify-center">
                         <img src="{{ url('img/akte.png') }}" class="w-5/12 lg:h-full">
                     </div>
                 </div>
-                <div class="flex flex-col items-center w-full pt-5 text-center lg:items-start lg:w-full lg:pt-5 xl:pt-10 lg:text-left">
-                    <h1 class="relative text-2xl font-black leading-tight text-gray-900 sm:text-4xl">{{ $website->layanans->judul3 }}</h1>
-                    <p class="pr-0 text-base text-gray-600 sm:text-lg xl:text-xl lg:pr-20">{{ $website->layanans->deskripsi3 }}</p>
+                <div class="flex flex-col items-center w-full pt-5 text-center lg:items-start lg:w-full lg:pt-5 xl:pt-10 xl:px-40 lg:text-left">
+                    <h1 class="relative text-2xl font-black leading-tight text-gray-900 sm:text-4xl">{{ $website->layanan->judul3 }}</h1>
+                    <p class="pr-0 text-base text-gray-600 sm:text-lg xl:text-xl lg:pr-20">{{ $website->layanan->deskripsi3 }}</p>
                     </p>
                 </div>
             </div>

@@ -18,6 +18,7 @@ class Postingan extends Model
         'kategori_id',
         'website_id',
         'gambar',
+        'status',
     ];
 
     public function kategori()

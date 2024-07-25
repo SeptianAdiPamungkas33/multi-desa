@@ -65,54 +65,56 @@
                     </a>
                 </div>
                 <div class="mx-4 my-4">
-                    <select x-model="navbarColor" name="navbar_color" class="p-2 border bg-white text-black rounded overflow-y-auto">
+                    <select x-model="navbarColor" name="navbar_color" class="p-2 border border-gray-300 text-black rounded">
                         <option value="bg-gradient-to-br from-blue-800 to-blue-400" :selected="navbarColor === 'bg-gradient-to-br from-blue-800 to-blue-400'">Blue</option>
+                        <option value="bg-sky-900 to-sky-400" :selected="navbarColor === 'bg-sky-900'">Navy</option>
                         <option value="bg-gradient-to-br from-red-800 to-red-400" :selected="navbarColor === 'bg-gradient-to-br from-red-800 to-red-400'">Red</option>
-                        <option value="bg-gradient-to-br from-green-800 to-green-400" :selected="navbarColor === 'bg-gradient-to-br from-green-800 to-green-400'">Green</option>
+                        <option value="bg-red-400" :selected="navbarColor === 'bg-red-400'">Pink</option>
                         <option value="bg-gradient-to-br from-yellow-800 to-yellow-400" :selected="navbarColor === 'bg-gradient-to-br from-yellow-800 to-yellow-400'">Yellow</option>
-                        <option value="bg-gradient-to-br from-purple-800 to-purple-400" :selected="navbarColor === 'bg-gradient-to-br from-purple-800 to-purple-400'">Purple</option>
+                        <option value="bg-fuchsia-900" :selected="navbarColor === 'bg-fuchsia-900'">Purple</option>
                         <option value="bg-gradient-to-br from-blue-600 to-red-400" :selected="navbarColor === 'bg-gradient-to-br from-blue-600 to-blue-400'">Blue Red</option>
-                        <option value="bg-gradient-to-br from-red-600 to-orange-400" :selected="navbarColor === 'bg-gradient-to-br from-red-600 to-orange-400'">Red Orange</option>
-                        <option value="bg-gradient-to-br from-green-600 to-blue-400" :selected="navbarColor === 'bg-gradient-to-br from-green-600 to-blue-400'">Green</option>
-                        <option value="bg-gradient-to-br from-slate-600 to-gray-400" :selected="navbarColor === 'bg-gradient-to-br from-slate-600 to-gray-400'">Yellow</option>
-                        <option value="bg-gradient-to-br from-blue-600 to-purple-300" :selected="navbarColor === 'bg-gradient-to-br from-blue-600 to-purple-300'">Purple</option>
+                        <!-- <option value="bg-gradient-to-br from-red-600 to-orange-400" :selected="navbarColor === 'bg-gradient-to-br from-red-600 to-orange-400'">Red Orange</option> -->
+                        <option value="bg-gradient-to-br from-yellow-400 to-orange-400" :selected="navbarColor === 'bg-gradient-to-br from-yellow-600 to-orange-400'">Yellow Orange</option>
+                        <option value="bg-gradient-to-br from-green-700 to-lime-400" :selected="navbarColor === 'bg-gradient-to-br from-green-700 to-lime-400'">Green</option>
+                        <option value="bg-gradient-to-br from-gray-800 to-gray-600" :selected="navbarColor === 'bg-gradient-to-br from-gray-800 to-gray-600'">Gray</option>
+                        <option value="bg-gradient-to-br from-blue-600 to-purple-600" :selected="navbarColor === 'bg-gradient-to-br from-blue-600 to-purple-600'">Purple Blue</option>
                     </select>
                 </div>
             </div>
         </footer>
         <div class="max-w-xl">
             <div class="mb-5">
-                <label for="alamat" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alamat</label>
+                <x-label for="alamat">Alamat</x-label>
                 <input type="text" id="alamat" name="alamat" value="{{$footer->alamat}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
             </div>
             <div class="mb-5">
-                <label for="sosmed" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sosmed</label>
+                <x-label for="sosmed">Sosmed</x-label>
                 <input type="text" id="sosmed" name="sosmed" value="{{$footer->sosmed}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
             </div>
             <div class="mb-5">
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                <x-label for="email">Email</x-label>
                 <input type="text" id="email" name="email" value="{{$footer->email}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
             </div>
             <div class="mb-5">
-                <label for="no_telepon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No Telepon</label>
+                <x-label for="no_telepon">No Telepon</x-label>
                 <input type="number" id="no_telepon" name="no_telepon" value="{{$footer->no_telepon}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
             </div>
             <div class="mb-5">
-                <label for="jadwal1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jadwal</label>
+                <x-label for="jadwal1">Jadwal 1</x-label>
                 <input type="text" id="jadwal1" name="jadwal1" value="{{$footer->jadwal1}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
             </div>
             <div class="mb-5">
-                <label for="jadwal2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jadwal 2</label>
+                <x-label for="jadwal2">Jadwal 2</x-label>
                 <input type="text" id="jadwal2" name="jadwal2" value="{{$footer->jadwal2}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
             </div>
             <div class="mb-5">
-                <label for="jadwal3" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jadwal 3</label>
+                <x-label for="jadwal3">Jadwal 3</x-label>
                 <input type="text" id="jadwal3" name="jadwal3" value="{{$footer->jadwal3}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
             </div>
@@ -120,36 +122,36 @@
         <div class="w-full">
             <div class="mb-5 flex items-center w-full gap-x-4">
                 <div class="w-full">
-                    <label for="link_terkait1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">link terkait 1</label>
+                    <x-label for="link_terkait1">Link Terkait 1</x-label>
                     <input type="text" id="link_terkait1" name="link_terkait1" value="{{$footer->link_terkait1}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                     focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                 </div>
                 <div class="w-full">
-                    <label for="link_url1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Masukkan URL:</label>
+                    <x-label for="link_url1">Link URL 1</x-label>
                     <input type="url" id="link_url1" name="link_url1" value="{{$footer->link_url1}}" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                     focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 </div>
             </div>
             <div class="mb-5 flex items-center w-full gap-x-4">
                 <div class="w-full">
-                    <label for="link_terkait2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">link terkait 2</label>
+                    <x-label for="link_terkait2">Link Terkait 2</x-label>
                     <input type="text" id="link_terkait2" name="link_terkait2" value="{{$footer->link_terkait2}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                     focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                 </div>
                 <div class="w-full">
-                    <label for="link_url2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Masukkan URL:</label>
+                    <x-label for="link_url2">Link URL 2</x-label>
                     <input type="url" id="link_url2" name="link_url2" value="{{$footer->link_url2}}" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                     focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 </div>
             </div>
             <div class="mb-5 flex items-center w-full gap-x-4">
                 <div class="w-full">
-                    <label for="link_terkait3" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">link terkait 3</label>
+                    <x-label for="link_terkait3">Link Terkait 3</x-label>
                     <input type="text" id="link_terkait3" name="link_terkait3" value="{{$footer->link_terkait3}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                     focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                 </div>
                 <div class="w-full">
-                    <label for="link_url3" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Masukkan URL:</label>
+                    <x-label for="link_url3">Link URL 3</x-label>
                     <input type="url" id="link_url3" name="link_url3" value="{{$footer->link_url3}}" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                     focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 </div>

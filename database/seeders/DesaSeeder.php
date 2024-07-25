@@ -31,5 +31,17 @@ class DesaSeeder extends Seeder
             'alamat' => 'Jumantono, Matesih, Karanganyar',
             'no_telp' => '0876151121254',
         ]);
+
+        Desa::Create([
+            'nama' => 'Pablengan',
+            'alamat' => 'Pablengan, Matesih, Karanganyar',
+            'no_telp' => '081412112112524',
+        ]);
+
+        Desa::Create([
+            'nama' => 'Jaten',
+            'alamat' => 'Jaten, Matesih, Karanganyar',
+            'no_telp' => '0876151121254',
+        ]);
     }
 }

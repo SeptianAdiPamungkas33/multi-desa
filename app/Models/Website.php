@@ -13,7 +13,7 @@ class Website extends Model
 
     protected $fillable = ['url', 'desa_id', 'user_id'];
 
-    protected $with = ['header', 'footer'];
+    protected $with = ['header', 'footer', 'postingan', 'slider', 'layanan', 'tentangkami', 'galeris', 'kategoris'];
 
     public function header()
     {
@@ -40,12 +40,7 @@ class Website extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function postingan()
-    {
-        return $this->hasMany(Postingan::class);
-    }
-
-    public function layanans()
+    public function layanan()
     {
         return $this->hasOne(Layanan::class);
     }
@@ -58,5 +53,15 @@ class Website extends Model
     public function galeris()
     {
         return $this->hasMany(Galeri::class);
+    }
+
+    public function postingan()
+    {
+        return $this->hasMany(Postingan::class);
+    }
+
+    public function kategoris()
+    {
+        return $this->hasMany(Kategori::class);
     }
 }

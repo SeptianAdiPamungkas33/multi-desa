@@ -21,6 +21,7 @@
                                     <form action="login" method="post">
                                         @csrf
                                         <div class="mb-4">
+                                            <x-label for="username">Username</x-label>
                                             <input type="text" name="username" placeholder="username" class="focus:shadow-primary-outline dark:bg-gray-950 dark:placeholder:text-white/80 
                                             dark:text-white/80 leading-5.6 ease block w-full appearance-none rounded-lg border border-solid 
                                             border-gray-300 bg-white bg-clip-padding p-3 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 
@@ -28,6 +29,7 @@
                                         </div>
                                         <div class="mb-4 w-full flex" x-data="{ show: true }">
                                             <div class="relative w-full">
+                                                <x-label for="password">Password</x-label>
                                                 <input type="password" name="password" placeholder="Password" :type="show ? 'password' : 'text'" class="text-md block px-3 py-2 rounded-lg w-full 
                                                 bg-white border-2 border-gray-300 placeholder-gray-600 shadow-mdfocus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none">
                                                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">

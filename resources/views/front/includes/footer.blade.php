@@ -1,4 +1,4 @@
-<footer x-data="{ navbarColor: '{{ $footer->navbar_color }}' }" class="px-4 pt-12 pb-8 text-black font-semibold border-t border-gray-200">
+<footer x-data="{ navbarColor: '{{ $footer->navbar_color }}' }" class="pt-12 pb-4 w-full text-black font-semibold border-t border-gray-200">
     <div :class="navbarColor" class="px-4 pt-12 pb-8 border-t border-gray-200">
         <div class="container flex flex-col justify-between max-w-6xl px-4 mx-auto overflow-hidden lg:flex-row">
             <div class="w-full min-w-[400px] pl-12 mr-4 text-left lg:w-1/4 sm:text-center sm:pl-0 lg:text-left">
@@ -48,13 +48,6 @@
                     <li><a href="{{ $footer->link_url3 }}" target="_blank" class="inline-block px-3 py-2 text-black-500 no-underline hover:text-gray-600">{{$footer->link_terkait3}}</a></li>
                 </ul>
             </div>
-        </div>
-        <div class="pt-4 mt-10 text-center text-black border-t border-gray-100">© 2024 Landmark. All rights reserved.</div>
-        <div class="pt-2 mt-2 text-center text-black border-t border-gray-100">
-            Distributed By
-            <a href="https://diskominfo.karanganyarkab.go.id/" target="_blank">
-                Kominfo Karanganyar
-            </a>
         </div>
     </div>
 </footer>

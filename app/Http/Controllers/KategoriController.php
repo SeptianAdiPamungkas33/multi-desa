@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\kategori;
 use Illuminate\Http\Request;
+use App\Models\Website;
+use Illuminate\Support\Facades\Auth;
 
 class KategoriController extends Controller
 {
@@ -30,9 +32,17 @@ class KategoriController extends Controller
             'nama' => 'required',
         ]);
 
-        $result = Kategori::create([
-            'nama' => $request->nama,
-        ]);
+        $validatedData['website_id'] = Website::where('desa_id', Auth::user()->desa_id)->first()->id;
+
+        $website = Website::where('desa_id', Auth::user()->desa_id)->first();
+        if (!$website) {
+            return redirect()->route('kategori.index')->with('error', 'Website tidak ditemukan untuk desa pengguna saat ini.');
+        }
+
+        $validatedData['website_id'] = $website->id;
+        $validatedData['desa_id'] = Auth::user()->desa_id;
+
+        $result = Kategori::create($validatedData);
 
         if ($result) {
             return redirect()->route('kategori.index')->with('success', 'Data berhasil ditambahkan');
@@ -55,6 +65,7 @@ class KategoriController extends Controller
     {
         $validatedData = $request->validate([
             'nama' => 'required',
+
         ]);
 
         $kategori = Kategori::find($id);

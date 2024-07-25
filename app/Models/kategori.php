@@ -13,10 +13,16 @@ class kategori extends Model
 
     protected $fillable = [
         'nama',
+        'website_id',
     ];
 
     public function postingan()
     {
         return $this->hasMany(postingan::class, 'kategori_id');
+    }
+
+    public function website()
+    {
+        return $this->belongsTo(Website::class);
     }
 }

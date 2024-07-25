@@ -14,8 +14,8 @@ class GaleriRequest extends FormRequest
     public function rules()
     {
         return [
-            'judul_galeri' => 'required', // Adjust the validation rules as necessary
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the validation rules as necessary
+            'judul_galeri' => 'required|string|max:255',
+            'filename.*' => 'sometimes|file|mimes:jpeg,png,jpg,gif,svg,mp4,mov,ogg,qt|max:20000', // Validasi gambar dan video
         ];
     }
 }

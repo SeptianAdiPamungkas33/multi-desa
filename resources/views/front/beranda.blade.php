@@ -17,6 +17,9 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.2/dist/tailwind.min.css" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js"></script>
 
+    <!-- Add these lines in your main layout or within the <head> section -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
 
     <!-- Small CSS to Hide elements at 1520px size -->
     <style>
@@ -47,14 +50,14 @@
     @include('front.includes.navbar')
 
     <!-- judul -->
-    <div class="">
+    <!-- <div class="">
         <div class="container flex items-center justify-center h-fit max-w-6xl px-8 mx-auto">
             <div class="flex flex-col items-center justify-center w-full h-full text-center py-6">
                 <h1 class="text-4xl font-black leading-tight text-gray-900 sm:text-4xl">Selamat Datang di Website {{$header->title}} Kabupaten Karanganyar</h1>
                 <p class="mt-4 text-lg text-gray-600">Website ini merupakan website resmi yang dikelola oleh Dinas Komunikasi dan Informatika Kabupaten Karanganyar</p>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- end of judul -->
 
     <!-- Carousel Section OR SLIDER -->
@@ -64,16 +67,20 @@
 
     <!-- BEGIN TENTANG KAMI SECTION -->
 
-    <div class="relative items-center justify-center w-full overflow-x-hidden lg:pt-40 lg:pb-40 xl:pt-40 xl:pb-64">
+    @php
+    $imageUrl = $website->tentangkami->gambar ? url($website->tentangkami->gambar) : url('img/default.png');
+    @endphp
+
+    <div class="relative items-center justify-center w-full overflow-x-hidden py-4 lg:pt-40 lg:pb-40 xl:pt-40 xl:pb-64">
         <div class="container flex flex-col items-center justify-between h-full max-w-6xl px-8 mx-auto -mt-32 lg:flex-row xl:px-0">
             <div class="z-30 flex flex-col items-center w-full max-w-xl pt-48 text-center lg:items-start lg:w-1/2 lg:pt-20 xl:pt-40 lg:text-left">
                 <h1 class="relative mb-4 text-3xl font-black leading-tight text-gray-900 sm:text-6xl xl:mb-8">{{ $website->tentangkami->judul }}</h1>
-                <p class="pr-0 max-w-[400px] mb-8 text-base text-gray-600 sm:text-lg xl:text-xl lg:pr-20">{{ \Illuminate\Support\Str::limit($website->tentangkami->deskripsi, 100, $end='...') }}</p>
-                <a href="/{{ $website->url }}/tentang-kami" class="relative self-start inline-block w-auto px-8 py-4 mx-auto mt-0 text-base font-bold text-white bg-indigo-600 border-t border-gray-200 rounded-md shadow-xl sm:mt-1 fold-bold lg:mx-0">Lebih Lengkap...</a>
+                <p class="pr-0 max-w-[400px] mb-8 text-base text-gray-600 sm:text-lg xl:text-md lg:pr-20">{!! \Illuminate\Support\Str::limit($website->tentangkami->deskripsi, 100, $end='...') !!}</p>
+                <a href="/{{ $website->url }}/{{$website->header->nama_menu2}}" class="relative self-start inline-block w-auto px-8 py-4 mx-auto mt-0 text-base font-bold text-white bg-indigo-600 border-t border-gray-200 rounded-md shadow-xl sm:mt-1 fold-bold lg:mx-0">Lebih Lengkap...</a>
             </div>
             <div class="relative z-50 flex flex-col items-end justify-center w-full h-full lg:w-1/2 ms:pl-10">
                 <div class="container relative left-0 w-full lg:absolute">
-                    <img src="{{ url($website->tentangkami->gambar) }}" class="w-full mt-20 mb-20 lg:mt-24 xl:mt-40 lg:mb-0 lg:h-full">
+                    <img src="{{ $imageUrl }}" class="w-full mt-20 mb-20 lg:mt-24 xl:mt-40 lg:mb-0 lg:h-full">
                 </div>
             </div>
         </div>
@@ -84,11 +91,8 @@
     <!-- BEGIN FEATURES LAYANAN SECTION -->
     <div id="features" class="relative w-full px-8 py-10 border-t border-gray-200 md:py-16 lg:py-24 xl:py-40 xl:px-0">
         <div class="container flex flex-col items-center justify-between h-full max-w-6xl mx-auto">
-            <!-- <h2 class="my-5 text-base font-medium tracking-tight text-indigo-500 uppercase">Our Features</h2> -->
-            <h3 class="max-w-2xl px-5 mt-2 text-3xl font-black leading-tight text-center text-gray-900 sm:mt-0 sm:px-0 sm:text-6xl">
-                Layanan Kami</h3>
+            <h3 class="max-w-2xl px-5 mt-2 text-3xl font-black leading-tight text-center text-gray-900 sm:mt-0 sm:px-0 sm:text-6xl">Layanan Kami</h3>
             <div class="flex flex-col w-full mt-0 lg:flex-row sm:mt-10 lg:mt-20">
-
                 <div class="w-full max-w-md p-4 mx-auto py-12 mb-0 sm:mb-16 lg:mb-0 lg:w-1/3">
                     <div class="relative flex flex-col items-center justify-center w-full h-full p-20 mr-5 rounded-lg">
                         <svg class="absolute w-full h-full text-gray-100 fill-current" viewBox="0 0 377 340" xmlns="http://www.w3.org/2000/svg">
@@ -130,8 +134,8 @@
                                 </g>
                             </g>
                         </svg>
-                        <h4 class="relative mt-6 text-lg text-center font-bold">{{ $website->layanans->judul1 }}</h4>
-                        <p class="relative mt-2 text-base text-center text-gray-600">{{ \Illuminate\Support\Str::limit($website->layanans->deskripsi1, 100, $end='...') }}</p>
+                        <h4 class="relative mt-6 text-lg text-center font-bold">{{ $website->layanan->judul1 }}</h4>
+                        <p class="relative mt-2 text-base text-center text-gray-600">{{ \Illuminate\Support\Str::limit($website->layanan->deskripsi1, 100, $end='...') }}</p>
                         </p>
                         <a href="/{{$website->url}}/layanan" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Selengkapnya</a>
                     </div>
@@ -178,8 +182,8 @@
                             </g>
                         </svg>
                         <!-- FEATURE Icon 2 -->
-                        <h4 class="relative mt-6 text-lg text-center font-bold">{{ $website->layanans->judul2 }}</h4>
-                        <p class="relative mt-2 text-base text-center text-gray-600">{{ \Illuminate\Support\Str::limit($website->layanans->deskripsi2, 100, $end='...') }}</p>
+                        <h4 class="relative mt-6 text-lg text-center font-bold">{{ $website->layanan->judul2 }}</h4>
+                        <p class="relative mt-2 text-base text-center text-gray-600">{{ \Illuminate\Support\Str::limit($website->layanan->deskripsi2, 100, $end='...') }}</p>
                         <a href="/{{$website->url}}/layanan" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Selengkapnya</a>
                     </div>
                 </div>
@@ -225,8 +229,8 @@
                                 </g>
                             </g>
                         </svg>
-                        <h4 class="relative mt-6 text-lg text-center font-bold">{{ $website->layanans->judul3 }}</h4>
-                        <p class="relative mt-2 text-base text-center text-gray-600">{{ \Illuminate\Support\Str::limit($website->layanans->deskripsi3, 100, $end='...') }}</p>
+                        <h4 class="relative mt-6 text-lg text-center font-bold">{{ $website->layanan->judul3 }}</h4>
+                        <p class="relative mt-2 text-base text-center text-gray-600">{{ \Illuminate\Support\Str::limit($website->layanan->deskripsi3, 100, $end='...') }}</p>
                         <a href="/{{$website->url}}/layanan" class="relative flex mt-2 text-sm font-medium text-indigo-500 underline">Selengkapnya</a>
                     </div>
                 </div>
@@ -239,20 +243,67 @@
     <div class="relative px-8 py-10 bg-white border-t border-gray-200 md:py-16 lg:py-24 xl:py-40 xl:px-0">
         <div id="pricing" class="container flex flex-col items-center h-full max-w-6xl mx-auto">
             <h3 class="w-full px-6 mt-2 text-2xl font-black text-center text-gray-900 sm:mt-0 sm:px-0 sm:text-6xl md:px-0">Galeri</h3>
-            <div class="">
-                <div class="container w-full mx-auto px-5 py-2 lg:px-16 lg:pt-8">
-                    <div class=" flex flex-wrap md:-m-2">
-                        @foreach($website->galeris as $galeri)
-                        <div class="flex w-1/2 flex-wrap lg:w-1/4">
-                            <div class="w-full p-1 md:p-2">
-                                <p class>{{$galeri->judul_galeri}}</p>
-                                <a href="/{{$website->url}}/galeri/{{$galeri->id}}">
-                                    <img alt="gallery" class="block h-full w-full rounded-lg object-cover object-center" src="{{ $galeri->image }}" />
-                                </a>
-                            </div>
+            <div class="container w-full mx-auto px-5 py-2 lg:px-16 lg:pt-8">
+                <div class="w-full flex flex-wrap md:-m-2">
+                    @foreach($website->galeris->where('status', 'aktif') as $item)
+                    <div class="flex w-1/2 flex-wrap lg:w-1/4">
+                        <div class="w-full p-1 md:p-2">
+                            <a href="/{{$website->url}}/{{$website->header->nama_menu4}}/{{$item->id}}">
+                                <p>{{$item->judul_galeri}}</p>
+                                <div class="w-full">
+                                    @if ($item->media->count() == 1)
+                                    @foreach ($item->media as $media)
+                                    @if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $media->file_path))
+                                    <img src="{{ asset($media->file_path) }}" class="w-full h-40 object-cover object-center">
+                                    @elseif (preg_match('/\.mp4$/i', $media->file_path))
+                                    <div class="">
+                                        <video controls class="w-full h-40 object-cover object-center">
+                                            <source src="{{ asset($media->file_path) }}" type="video/mp4" class="px-4 py-32">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    </div>
+                                    @else
+                                    <div class="px-4 py-3">
+                                        <span class="text-gray-500">No media available</span>
+                                    </div>
+                                    @endif
+                                    @endforeach
+                                    @elseif ($item->media->count() > 1)
+                                    <div class="splide" id="splide{{$item->id}}">
+                                        <div class="splide__track">
+                                            <ul class="splide__list">
+                                                @foreach ($item->media as $media)
+                                                <li class="splide__slide">
+                                                    @if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $media->file_path))
+                                                    <img src="{{ asset($media->file_path) }}" class="w-full h-40 object-cover">
+                                                    @elseif (preg_match('/\.mp4$/i', $media->file_path))
+                                                    <video controls class="w-full h-40 object-cover">
+                                                        <source src="{{ asset($media->file_path) }}" type="video/mp4" class="px-4 py-3">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                    @endif
+                                                </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            new Splide('#splide{{$item->id}}', {
+                                                type: 'loop',
+                                                perPage: 1,
+                                                autoplay: true,
+                                            }).mount();
+                                        });
+                                    </script>
+                                    @else
+                                    <span class="text-gray-500">No media available</span>
+                                    @endif
+                                </div>
+                            </a>
                         </div>
-                        @endforeach
                     </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -261,27 +312,24 @@
 
     <!-- Start ARTIKEL -->
     <div id="testimonials" class="flex items-center justify-center w-full px-8 py-10 border-t border-gray-200 md:py-16 lg:py-24 xl:py-40 xl:px-0">
-        <div class="max-w-full mx-auto">
+        <div class="w-full flex flex-col items-center justify-center">
             <div class="flex flex-col items-center justify-center w-full h-full max-w-2xl pr-8 mx-auto text-center py-8">
                 <h2 class="text-4xl font-extrabold text-center leading-10 tracking-tight text-gray-900 sm:text-5xl sm:leading-none md:text-6xl lg:text-5xl xl:text-6xl">
-                    Artikel</h2>
+                    Artikel
+                </h2>
             </div>
-            <div class="w-full flex flex-wrap gap-x-4 items-center mx-[100px]">
-                @foreach($website->postingan as $postingans)
+            <div class="w-full flex flex-wrap justify-center items-center gap-4">
+                @foreach($website->postingan->where('status', 'aktif') as $postingans)
                 <div class="w-[300px] flex-wrap flex items-center p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <div class="px-4 py-3">
-                        <img src="{{ asset($postingans->gambar) }}" class="w-20 h-20 object-cover">
-                    </div>
-
-                    <div class="">
+                    <div class="w-full p-6">
                         @if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $postingans->gambar))
                         <div class="px-4 py-3">
-                            <img src="{{ $postingans->gambar }}" class="w-20 h-20 object-cover">
+                            <img src="{{ asset($postingans->gambar) }}" class="w-40 h-40 object-cover object-center">
                         </div>
                         @elseif (preg_match('/\.mp4$/i', $postingans->gambar))
                         <div class="px-4 py-3">
-                            <video controls>
-                                <source src="{{ $postingans->gambar }}" type="video/mp4">
+                            <video controls class="w-40 h-40 object-cover object-center">
+                                <source src="{{ asset($postingans->gambar) }}" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
@@ -292,10 +340,20 @@
                         @endif
                     </div>
 
-                    <a class="w-[300px] h-[30px] py-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white overflow-hidden">{{$postingans->judul}}</a>
-                    <p class="w-[300px] h-[30px] py-1 font-normal text-gray-700 dark:text-gray-400 overflow-hidden">{{$postingans->kategori->nama}}</p>
-                    <p class="w-[300px] h-[120px] py-1 font-normal text-gray-700 dark:text-gray-400 overflow-hidden">{{ \Illuminate\Support\Str::limit($postingans->isi, 100, $end='...') }}</p>
-                    <a href="/{{$website->url}}/artikel/{{$postingans->id}}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <div class="w-[300px] h-[40px] py-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white overflow-hidden">
+                        {{$postingans->judul}}
+                    </div>
+                    <div class="w-[300px] h-[40px] py-1 font-normal text-yellow-400 overflow-hidden">
+                        {{$postingans->kategori->nama}}
+                    </div>
+
+                    <div class="w-[300px] h-[58px] py-1 font-normal text-gray-700 dark:text-gray-400 overflow-hidden">
+                        {!! $postingans->isi !!}
+                    </div>
+                    <!-- <td class="px-4 py-3 w-[200px]">{!! \Illuminate\Support\Str::limit($postingans->isi, 30, $end='...') !!}</td> -->
+
+
+                    <a href="/{{$website->url}}/{{$website->header->nama_menu5}}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Read more
                         <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
@@ -310,84 +368,138 @@
 
     @include('front.includes.footer')
 
+    @include('front.includes.copyright')
+
     <!-- a little JS for the mobile nav button -->
     <script>
-        if (document.getElementById('nav-mobile-btn')) {
-            document.getElementById('nav-mobile-btn').addEventListener('click', function() {
-                if (this.classList.contains('close')) {
-                    document.getElementById('nav').classList.add('hidden');
-                    this.classList.remove('close');
-                } else {
-                    document.getElementById('nav').classList.remove('hidden');
-                    this.classList.add('close');
-                }
-            });
-        }
+        // if (document.getElementById('nav-mobile-btn')) {
+        //     document.getElementById('nav-mobile-btn').addEventListener('click', function() {
+        //         if (this.classList.contains('close')) {
+        //             document.getElementById('nav').classList.add('hidden');
+        //             this.classList.remove('close');
+        //         } else {
+        //             document.getElementById('nav').classList.remove('hidden');
+        //             this.classList.add('close');
+        //         }
+        //     });
+        // }
 
-        const carouselElement = document.getElementById('carousel-example');
+        // const carouselElement = document.getElementById('carousel-example');
 
-        const items = [{
-                position: 0,
-                el: document.getElementById('carousel-item-1'),
-            },
-            {
-                position: 1,
-                el: document.getElementById('carousel-item-2'),
-            },
-            {
-                position: 2,
-                el: document.getElementById('carousel-item-3'),
-            },
-            {
-                position: 3,
-                el: document.getElementById('carousel-item-4'),
-            },
-        ];
+        // const items = [{
+        //         position: 0,
+        //         el: document.getElementById('carousel-item-1'),
+        //     },
+        //     {
+        //         position: 1,
+        //         el: document.getElementById('carousel-item-2'),
+        //     },
+        //     {
+        //         position: 2,
+        //         el: document.getElementById('carousel-item-3'),
+        //     },
+        //     {
+        //         position: 3,
+        //         el: document.getElementById('carousel-item-4'),
+        //     },
+        // ];
 
         // options with default values
-        const options = {
-            defaultPosition: 1,
-            interval: 3000,
+        // const options = {
+        //     defaultPosition: 1,
+        //     interval: 3000,
 
-            indicators: {
-                activeClasses: 'bg-white dark:bg-gray-800',
-                inactiveClasses: 'bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800',
-                items: [{
-                        position: 0,
-                        el: document.getElementById('carousel-indicator-1'),
-                    },
-                    {
-                        position: 1,
-                        el: document.getElementById('carousel-indicator-2'),
-                    },
-                    {
-                        position: 2,
-                        el: document.getElementById('carousel-indicator-3'),
-                    },
-                    {
-                        position: 3,
-                        el: document.getElementById('carousel-indicator-4'),
-                    },
-                ],
-            },
+        //     indicators: {
+        //         activeClasses: 'bg-white dark:bg-gray-800',
+        //         inactiveClasses: 'bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800',
+        //         items: [{
+        //                 position: 0,
+        //                 el: document.getElementById('carousel-indicator-1'),
+        //             },
+        //             {
+        //                 position: 1,
+        //                 el: document.getElementById('carousel-indicator-2'),
+        //             },
+        //             {
+        //                 position: 2,
+        //                 el: document.getElementById('carousel-indicator-3'),
+        //             },
+        //             {
+        //                 position: 3,
+        //                 el: document.getElementById('carousel-indicator-4'),
+        //             },
+        //         ],
+        //     },
 
-            // callback functions
-            onNext: () => {
-                console.log('next slider item is shown');
-            },
-            onPrev: () => {
-                console.log('previous slider item is shown');
-            },
-            onChange: () => {
-                console.log('new slider item has been shown');
-            },
-        };
+        //     // callback functions
+        //     onNext: () => {
+        //         console.log('next slider item is shown');
+        //     },
+        //     onPrev: () => {
+        //         console.log('previous slider item is shown');
+        //     },
+        //     onChange: () => {
+        //         console.log('new slider item has been shown');
+        //     },
+        // };
 
         // instance options object
-        const instanceOptions = {
-            id: 'carousel-example',
-            override: true
-        };
+        // const instanceOptions = {
+        //     id: 'carousel-example',
+        //     override: true
+        // };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const items = document.querySelectorAll('[data-carousel-item]');
+            const indicators = document.querySelectorAll('[data-carousel-slide-to]');
+            let currentIndex = 0;
+            let intervalTime = 3000; // Set interval time in milliseconds
+
+            // function showItem(index) {
+            //     items.forEach((item, i) => {
+            //         if (i === index) {
+            //             item.classList.remove('hidden');
+            //             item.classList.add('active');
+            //         } else {
+            //             item.classList.remove('active');
+            //             item.classList.add('hidden');
+            //         }
+            //     });
+
+            //     indicators.forEach((indicator, i) => {
+            //         if (i === index) {
+            //             indicator.setAttribute('aria-current', 'true');
+            //             indicator.classList.add('bg-blue-500');
+            //         } else {
+            //             indicator.setAttribute('aria-current', 'false');
+            //             indicator.classList.remove('bg-blue-500');
+            //         }
+            //     });
+            // }
+
+            document.querySelector('[data-carousel-prev]').addEventListener('click', function() {
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : items.length - 1;
+                showItem(currentIndex);
+            });
+
+            document.querySelector('[data-carousel-next]').addEventListener('click', function() {
+                currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
+                showItem(currentIndex);
+            });
+
+            indicators.forEach((indicator, i) => {
+                indicator.addEventListener('click', function() {
+                    currentIndex = i;
+                    showItem(currentIndex);
+                });
+            });
+
+            // Auto slide
+            setInterval(() => {
+                currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
+                showItem(currentIndex);
+            }, intervalTime); // Adjust the interval time as needed
+        });
     </script>
 </body>
 

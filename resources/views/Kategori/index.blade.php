@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('container')
-<div class="m-64 mt-20 p-4">
+<div class="ml-64 mt-20 p-4">
     <p class="text-xl font-bold uppercase mb-8">Manajemen Kategori</p>
     <!-- Start coding here -->
     <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">

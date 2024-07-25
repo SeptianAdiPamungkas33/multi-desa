@@ -10,6 +10,9 @@ use App\Models\Website;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use HTMLPurifier;
+use HTMLPurifier_Config;
+
 class PostinganController extends Controller
 {
     public function index()
@@ -46,6 +49,12 @@ class PostinganController extends Controller
             'gambar' => 'sometimes|file|mimes:jpeg,png,jpg,gif,svg,mp4,mov,ogg,qt|max:20000', // Validasi gambar dan video
         ]);
 
+        // Clean the 'isi' field using HTML Purifier
+        $config = HTMLPurifier_Config::createDefault();
+        $purifier = new HTMLPurifier($config);
+        $validatedData['isi'] = $purifier->purify($validatedData['isi']);
+
+
         // Handle image upload
         if ($request->hasFile('gambar')) {
             $imageName = time() . '.' . $request->gambar->extension();
@@ -58,9 +67,9 @@ class PostinganController extends Controller
         if (!$website) {
             return redirect()->route('postingan.index')->with('error', 'Website tidak ditemukan untuk desa pengguna saat ini.');
         }
-        $validatedData['website_id'] = $website->id;
 
         // Assign desa_id from the current authenticated user
+        $validatedData['website_id'] = $website->id;
         $validatedData['desa_id'] = Auth::user()->desa_id;
 
         // Create the Postingan record
@@ -93,10 +102,14 @@ class PostinganController extends Controller
             'judul' => 'required',
             'isi' => 'required',
             'kategori_id' => 'required',
-            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi gambar
+            'gambar' => 'sometimes|file|mimes:jpeg,png,jpg,gif,svg,mp4,mov,ogg,qt|max:20000', // Validasi gambar dan video
         ]);
 
         $postingan = Postingan::findOrFail($id);
+
+        $config = HTMLPurifier_Config::createDefault();
+        $purifier = new HTMLPurifier($config);
+        $validatedData['isi'] = $purifier->purify($validatedData['isi']);
 
         // Handle image upload
         if ($request->hasFile('image')) {
@@ -120,6 +133,14 @@ class PostinganController extends Controller
         } else {
             return redirect()->route('postingan.index')->with('error', 'Data gagal diubah');
         }
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $postingan = Postingan::findOrFail($id);
+        $postingan->update(['status' => $request->status]);
+
+        return redirect()->route('postingan.index')->with('success', 'Status berhasil diubah');
     }
 
 

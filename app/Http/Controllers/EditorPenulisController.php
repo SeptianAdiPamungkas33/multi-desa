@@ -31,6 +31,7 @@ class EditorPenulisController extends Controller
     {
         $role = Role::all();
         $desa = Desa::all();
+
         return view('editor-penulis.create', [
             'title' => 'Tambah Desa',
             'case' => 'post',
@@ -83,6 +84,10 @@ class EditorPenulisController extends Controller
         $desa = Desa::all();
         $role = Role::all();
 
+        // Ambil semua desa yang belum dipilih oleh admin, atau desa yang dipilih oleh admin saat ini
+        $assignedDesaIds = User::where('role_id', 2)->where('id', '!=', $id)->pluck('desa_id')->toArray();
+        $desa = Desa::whereNotIn('id', $assignedDesaIds)->get();
+
         return view('editor-penulis.edit', [
             'title' => 'Edit Desa',
             'user' => $user,
@@ -97,17 +102,23 @@ class EditorPenulisController extends Controller
             'username' => 'required',
             'nomor_telepon' => 'required',
             'email' => 'required',
-            'desa_id' => 'required|exists:desas,id',
+            // 'desa_id' => 'required|exists:desas,id',
             'role_id' => 'required|exists:roles,id',
         ]);
+
+        // Ambil semua desa yang belum dipilih oleh admin, atau desa yang dipilih oleh admin saat ini
+        $assignedDesaIds = User::where('role_id', 2)->where('id', '!=', $id)->pluck('desa_id')->toArray();
+        $desa = Desa::whereNotIn('id', $assignedDesaIds)->get();
 
         $user = User::find($id);
         $user->username = $request->username;
         $user->nomor_telepon = $request->nomor_telepon;
         $user->password = Hash::make($request->password);
         $user->email = $request->email;
-        $user->desa_id = $request->desa_id;
+        $user->desa_id = $request->user()->desa_id;
         $user->role_id = $request->role_id;
+
+
 
         if ($request->filled('password')) {
             $request->validate([

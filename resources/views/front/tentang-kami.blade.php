@@ -17,6 +17,9 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.2/dist/tailwind.min.css" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js"></script>
 
+    <!-- Add these lines in your main layout or within the <head> section -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
 
     <!-- Small CSS to Hide elements at 1520px size -->
     <style>
@@ -46,22 +49,21 @@
     <!-- Header Section -->
     @include('front.includes.navbar')
 
-    <!-- Carousel Section OR SLIDER -->
-    @include('front.includes.slider')
-    <!-- End Carousel Section -->
-
     <!-- BEGIN TENTANG KAMI SECTION -->
 
-    <div class="relative items-center justify-center w-full overflow-x-hidden mx-24 pt-0 lg:pt-40 pb-40 xl:pt-40 xl:pb-64">
+    <div class="relative items-center flex justify-center w-full overflow-x-hidden px-24 pt-0 lg:pt-40 pb-40 xl:pt-40 xl:pb-64">
         <div class="container w-full items-center justify-between h-full -mt-32 lg:flex-row">
+            <div class="flex flex-col w-full text-center font-bold">
+                <p class="text-black text-6xl pb-8">{{$website->header->nama_menu2}}</p>
+            </div>
             <div class="relative z-50 flex items-center justify-center w-full h-full">
                 <div class="container relative w-full flex items-center justify-center">
                     <img src="{{ url($website->tentangkami->gambar) }}" class="w-7/12 lg:h-full">
                 </div>
             </div>
             <div class="z-30 flex flex-col items-center w-full pt-20 text-center lg:items-start lg:w-full lg:pt-20 xl:pt-30 lg:text-left">
-                <h1 class="relative mb-4 text-3xl font-black leading-tight text-gray-900 sm:text-6xl xl:mb-8">{{ $website->tentangkami->judul }}</h1>
-                <p class="pr-0 mb-8 text-base text-gray-600 sm:text-lg xl:text-xl lg:pr-20">{{($website->tentangkami->deskripsi) }}</p>
+                <h1 class="relative mb-4 text-2xl font-black leading-tight text-gray-900 sm:text-4xl xl:mb-8">{{ $website->tentangkami->judul }}</h1>
+                <p class="pr-0 mb-8 text-4xl text-gray-600 sm:text-lg xl:text-xl lg:pr-20">{!! ($website->tentangkami->deskripsi) !!}</p>
                 </p>
             </div>
         </div>

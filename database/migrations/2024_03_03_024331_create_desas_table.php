@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('desas', function (Blueprint $table) {
             $table->id();
 
-            $table->string('nama');
-            $table->string('alamat');
-            $table->string('no_telp');
+            $table->string('nama')->nullable();
+            $table->string('alamat')->nullable()->unique();
+            $table->string('no_telp')->nullable();
 
             $table->timestamps();
         });

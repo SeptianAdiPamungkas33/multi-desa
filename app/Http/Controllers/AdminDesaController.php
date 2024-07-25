@@ -44,6 +44,7 @@ class AdminDesaController extends Controller
             'title' => 'Tambah Desa',
             'case' => 'post',
             'desa' => $desa,
+            'assignedDesaIds' => $assignedDesaIds,
         ]);
     }
 
@@ -67,11 +68,17 @@ class AdminDesaController extends Controller
 
         $validatedData = $request->validate([
             'username' => 'required',
-            'nomor_telepon' => 'required',
+            'nomor_telepon' => 'nullable',
             'password' => 'required',
             'email' => 'required|email|unique:users,email',
             'desa_id' => 'required|exists:desas,id',
         ]);
+
+        // Pengecekan apakah desa sudah memiliki admin
+        $isAdminExist = User::where('role_id', 2)->where('desa_id', $validatedData['desa_id'])->exists();
+        if ($isAdminExist) {
+            return redirect()->route('admin-desa.index')->with('error', 'Desa ini sudah memiliki admin');
+        }
 
         $result = User::create([
             'username' => $request->username,
@@ -93,8 +100,8 @@ class AdminDesaController extends Controller
             'nama_menu1' => 'Beranda',
             'nama_menu2' => 'Tentang Kami',
             'nama_menu3' => 'Layanan',
-            'nama_menu4' => 'Artikel',
-            'nama_menu5' => 'Galeri',
+            'nama_menu4' => 'Galeri',
+            'nama_menu5' => 'Artikel',
             'nama_menu6' => 'Potensi Desa',
             'image' => 'img/default.png',
             'website_id' => $website->id,
@@ -121,7 +128,7 @@ class AdminDesaController extends Controller
         $tentangkami = Tentangkami::create([
             'judul' => 'Judul',
             'deskripsi' => 'Deskripsi',
-            'gambar' => 'kantor_bupati.png',
+            'gambar' => 'img/default.png',
             'website_id' => $website->id,
         ]);
 
@@ -159,8 +166,8 @@ class AdminDesaController extends Controller
      */
     public function edit(string $id)
     {
-        // $user = User::find($id);
-        // $desa = Desa::all();
+        $user = User::find($id);
+        $desa = Desa::all();
 
         // Ambil semua desa yang belum dipilih oleh admin, atau desa yang dipilih oleh admin saat ini
         $assignedDesaIds = User::where('role_id', 2)->where('id', '!=', $id)->pluck('desa_id')->toArray();
@@ -168,7 +175,7 @@ class AdminDesaController extends Controller
 
         return view('admindesa.edit', [
             'title' => 'Edit Desa',
-            // 'user' => $user,
+            'user' => $user,
             'desa' => $desa,
             'assignedDesaIds' => $assignedDesaIds,
         ]);
@@ -181,16 +188,14 @@ class AdminDesaController extends Controller
     {
         $validatedData = $request->validate([
             'username' => 'required',
-            'nomor_telepon' => 'required',
+            'nomor_telepon' => 'nullable',
             'email' => 'required',
-            'desa_id' => 'required|exists:desas,id',
         ]);
 
         $user = User::find($id);
         $user->username = $request->username;
         $user->nomor_telepon = $request->nomor_telepon;
         $user->email = $request->email;
-        $user->desa_id = $request->desa_id;
 
         if ($request->filled('password')) {
             $request->validate([
@@ -208,6 +213,8 @@ class AdminDesaController extends Controller
         }
     }
 
+
+
     /**
      * Remove the specified resource from storage.
      */
@@ -220,10 +227,10 @@ class AdminDesaController extends Controller
             $website = $user->website;
 
             if ($website) {
-                // Hapus artikel terkait
-                $website->postingan()->delete();
 
-                // Hapus galeris terkait
+                // Hapus Konten terkait terkait
+                $website->postingan()->delete();
+                $website->kategoris()->delete();
                 $website->galeris()->delete();
 
                 // Hapus header, footer, slider, tentangkami, dan layanans terkait
@@ -231,7 +238,7 @@ class AdminDesaController extends Controller
                 $website->footer()->delete();
                 $website->slider()->delete();
                 $website->tentangkami()->delete();
-                $website->layanans()->delete();
+                $website->layanan()->delete();
 
                 // Hapus website
                 $website->delete();

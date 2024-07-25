@@ -7,16 +7,16 @@
         @csrf
         @method('post')
         <div class="mb-5">
-            <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+            <x-label for="nama">Username</x-label>
             <input type="text" id="nama" name="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
         </div>
         <div class="mb-5">
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+            <x-label for="email">Email</x-label>
             <input type="email" id="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
         </div>
         <div class="mb-4 w-full flex" x-data="{ show: true }">
             <div class="relative w-full">
-                <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                <x-label for="password">Password</x-label>
                 <input type="password" id="password" name="password" :type="show ? 'password' : 'text'" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 <div class="absolute mt-7 inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
                     <svg class="h-6 text-gray-700" fill="none" @click="show = !show" :class="{'hidden': !show, 'block':show }" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 576 512">
@@ -32,21 +32,24 @@
             </div>
         </div>
         <div class="mb-5">
-            <label for="nomor_telepon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor Telepon</label>
+            <x-label for="nomor_telepon" :required="false">Nomor Telepon</x-label>
             <input type="text" id="nomor_telepon" name="nomor_telepon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
         </div>
         <div class="mb-5">
-            <label for="desa_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Desa</label>
+            <x-label for="nomor_telepon">Nomor Telepon</x-label>
             <select id="desa_id" name="desa_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                 @foreach ($desa as $item)
-                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                <option value="{{ $item->id }}" {{ in_array($item->id, $assignedDesaIds) ? 'disabled' : '' }}>
+                    {{ $item->nama }} {{ in_array($item->id, $assignedDesaIds) ? '(Sudah memiliki admin)' : '' }}
+                </option>
                 @endforeach
             </select>
         </div>
-        <div class="pt-4">
-            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                Tambahkan
-            </button>
+        <div class="flex items-center gap-x-4">
+            <button type="submit" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-4 text-center dark:bg-blue-600 dark:hover:bg-blue-800 dark:focus:ring-blue-800">Submit</button>
+            <div class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-4 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800">
+                <a href="javascript:history.back()">Back</a>
+            </div>
         </div>
     </form>
 </div>

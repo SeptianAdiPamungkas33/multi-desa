@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Website;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Penduduk;
 
 class AdminDesaController extends Controller
 {
@@ -53,8 +54,6 @@ class AdminDesaController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-
         $user = User::where('username', $request->username)->first();
 
         if ($user) {
@@ -144,6 +143,14 @@ class AdminDesaController extends Controller
             'website_id' => $website->id,
         ]);
 
+        $penduduk = Penduduk::create([
+            'jumlah_penduduk' => 0,
+            'jumlah_kk' => 0,
+            'jumlah_laki' => 0.00,
+            'jumlah_perempuan' => 0.00,
+            'website_id' => $website->id,
+        ]);
+
 
         if ($result) {
             return redirect()->route('admin-desa.index')->with('success', 'Data berhasil ditambahkan');
@@ -151,6 +158,7 @@ class AdminDesaController extends Controller
             return redirect()->route('admin-desa.index')->with('error', 'Data gagal ditambahkan');
         }
     }
+
 
     /**
      * Display the specified resource.

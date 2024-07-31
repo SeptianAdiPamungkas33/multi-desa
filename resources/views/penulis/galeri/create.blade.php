@@ -6,13 +6,13 @@
         @csrf
 
         <div class="mb-5">
-            <label for="judul_galeri" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Judul Galeri</label>
+            <x-label for="judul_galeri">Judul Galeri</x-label>
             <input type="text" id="judul_galeri" name="judul_galeri" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
         </div>
 
         <div class="w-full flex flex-col">
             <div class="mb-3">
-                <label for="filename" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Images</label>
+                <x-label for="filename">Images/Video</x-label>
                 <input type="file" name="filename[]" multiple class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">file|mimes:jpeg,png,jpg,gif,svg,mp4,mov,ogg,qt|max:20000|multiple</p>
             </div>

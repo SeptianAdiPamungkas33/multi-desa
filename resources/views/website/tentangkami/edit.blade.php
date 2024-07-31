@@ -7,14 +7,11 @@
         @csrf
         @method('put')
         <div class="mb-5">
-            <label for="judul" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Judul</label>
+            <x-label for="judul_tentangkami">Media</x-label>
             <input type="text" id="judul" value="{{$tentangkami->judul}}" name="judul" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
         </div>
         <div class="mb-5">
-            <!-- <label for="deskripsi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Deskripsi</label>
-            <input type="text" id="deskripsi" name="deskripsi" value="{{$tentangkami->deskripsi}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required /> -->
-
-            <label for="deskripsi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Deskripsi Tentang kami</label>
+            <x-label for="deskripsi_tentangkami">Deskripsi Tentangkami</x-label>
             <input id="deskripsi" type="hidden" name="deskripsi" class="text-8xl" value="{{$tentangkami->deskripsi}}" required>
             <trix-editor input="deskripsi" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></trix-editor>
         </div>
@@ -22,9 +19,7 @@
             <img src="{{ $tentangkami->gambar ? url($tentangkami->gambar) : url('img/default.png') }}" alt="{{ $tentangkami->judul }}" class="w-20 h-20 object-cover">
         </div>
         <div>
-            <!-- <input type="file" name="gambar"> -->
-
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
+            <x-label for="gambar">Gambar</x-label>
             <input name="gambar" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file">
             <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">image|mimes:jpeg,png,jpg,gif,svg|max:2048</p>
 

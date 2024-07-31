@@ -64,4 +64,9 @@ class Website extends Model
     {
         return $this->hasMany(Kategori::class);
     }
+
+    public function penduduk()
+    {
+        return $this->hasOne(Penduduk::class);
+    }
 }

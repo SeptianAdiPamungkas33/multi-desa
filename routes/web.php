@@ -12,6 +12,7 @@ use App\Http\Controllers\EditorPenulisController;
 use App\Http\Controllers\FooterController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\GaleriController;
+use App\Http\Controllers\GrafikController;
 use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KontenController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\PotensiController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\UploadKontenController;
 use App\Http\Controllers\WebsiteController;
+use App\Http\Controllers\PendudukController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +35,7 @@ use App\Http\Controllers\WebsiteController;
 |
 */
 
+//Semua
 Route::get('/', [LoginController::class, 'index']);
 
 Route::get('login', [LoginController::class, 'index'])->name('login');
@@ -42,17 +45,14 @@ Route::get('home-desa', [LoginController::class, 'homedesa'])->name('homedesa')-
 Route::get('home-penulis', [LoginController::class, 'homepenulis'])->name('homepenulis')->middleware('auth');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
+//Super Admin
 Route::resource('admin-desa', AdminDesaController::class)->except(['show'])->middleware('auth');
 // Route::resource('desa', DesaController::class)->except(['show'])->middleware('auth');
+
+//Admin Desa
 Route::resource('editor-penulis', EditorPenulisController::class)->except(['show'])->middleware('auth');
-Route::resource('kategori', KategoriController::class)->except(['show'])->middleware('auth');
-
-Route::resource('postingan', PostinganController::class)->except(['show'])->middleware('auth');
-Route::put('/postingan/{id}/update-status', [PostinganController::class, 'updateStatus'])->name('postingan.updateStatus');
-
-Route::resource('upload-konten', UploadKontenController::class)->except(['show'])->middleware('auth');
-
 Route::resource('website', WebsiteController::class)->except(['show'])->middleware('auth');
+Route::get('website-list', [WebsiteController::class, 'websitelist']);
 Route::resource('website/header', HeaderController::class)->except(['show'])->middleware('auth');
 Route::resource('website/footer', FooterController::class)->except(['show'])->middleware('auth');
 Route::resource('website/slider', SliderController::class)->except(['show'])->middleware('auth');
@@ -60,31 +60,21 @@ Route::resource('website/slider', SliderController::class)->except(['show'])->mi
 Route::resource('website/tentangkami', TentangKamiController::class)->except(['show'])->middleware('auth');
 Route::resource('website/layanan', LayananController::class)->except(['show'])->middleware('auth');
 
+
+//Penulis
 Route::resource('galeri', GaleriController::class)->except(['show'])->middleware('auth');
 Route::put('/galeri/{id}/update-status', [GaleriController::class, 'updateStatus'])->name('galeri.updateStatus');
 
-// Route::resource('konten', KontenController::class)->except(['show'])->middleware('auth');
-// Route::resource('konten/artikel', ArtikelController::class)->except(['show'])->middleware('auth');
-// Route::resource('website/layanan', LayananController::class)->except(['show'])->middleware('auth');
-// Route::get('profile', [ProfileController::class, 'index'])->name('profile')->middleware('auth');
+Route::resource('kategori', KategoriController::class)->except(['show'])->middleware('auth');
+Route::resource('postingan', PostinganController::class)->except(['show'])->middleware('auth');
+Route::put('/postingan/{id}/update-status', [PostinganController::class, 'updateStatus'])->name('postingan.updateStatus');
 
-// Route::get('{website:url}/{header:nama_menu2}', [FrontController::class, 'tentangkami']);
-// Route::get('{website:url}/beranda', [FrontController::class, 'beranda']);
-// Route::get('{website:url}/tentang-kami', [FrontController::class, 'tentangkami']);
-// Route::get('{website:url}/layanan', [FrontController::class, 'layanan']);
-// Route::get('{website:url}/galeri', [FrontController::class, 'galeri']);
-// Route::get('{website:url}/galeri/{id}', [FrontController::class, 'detailgaleri']);
-// Route::get('{website:url}/artikel', [FrontController::class, 'artikel']);
-// Route::get('{website:url}/artikel/{id}', [FrontController::class, 'detailartikel']);
+// Route::resource('grafik', GrafikController::class)->except(['show'])->middleware('auth');
+Route::resource('penduduk', PendudukController::class)->except(['show'])->middleware('auth');
+// Route::get('grafik/{id}/edit', [GrafikController::class, 'edit'])->name('grafik.edit');
+// Route::put('grafik/{id}', [GrafikController::class, 'update'])->name('grafik.update');
 
-// Route::get('{website:url}/{nama_menu1}', [FrontController::class, 'beranda']);
-// Route::get('{website:url}/{nama_menu2}', [FrontController::class, 'tentangkami']);
-// Route::get('{website:url}/{nama_menu3}', [FrontController::class, 'layanan']);
-// Route::get('{website:url}/{nama_menu4}', [FrontController::class, 'galeri']);
-// Route::get('{website:url}/galeri/{id}', [FrontController::class, 'detailgaleri']);
-// Route::get('{website:url}/{nama_menu5}', [FrontController::class, 'artikel']);
-// Route::get('{website:url}/artikel/{id}', [FrontController::class, 'detailartikel']);
-
+//Frontend
 Route::get('{website:url}/{menu}', function ($url, $menu) {
     // Dapatkan objek website berdasarkan URL
     $website = App\Models\Website::where('url', $url)->firstOrFail();
@@ -108,13 +98,27 @@ Route::get('{website:url}/{menu}', function ($url, $menu) {
 
 Route::get('{website:url}/{menu}/{id}', [FrontController::class, 'detailartikel']);
 
-
-// Route::get('{website:url}/{nama_menu1}', [FrontController::class, 'detailartikel']);
-// Route::get('{website:url}/potensi', [FrontController::class, 'potensi']);
-
-Route::get('surat', [FrontController::class, 'surat']);
-
+// Route::get('surat', [FrontController::class, 'surat']);
 
 Route::get('some/error/route', function () {
     return view('errors.custom')->with('message', session('error'));
 })->name('some.error.route');
+
+
+//Route Menu
+// Route::get('{website:url}/{header:nama_menu2}', [FrontController::class, 'tentangkami']);
+// Route::get('{website:url}/beranda', [FrontController::class, 'beranda']);
+// Route::get('{website:url}/tentang-kami', [FrontController::class, 'tentangkami']);
+// Route::get('{website:url}/layanan', [FrontController::class, 'layanan']);
+// Route::get('{website:url}/galeri', [FrontController::class, 'galeri']);
+// Route::get('{website:url}/galeri/{id}', [FrontController::class, 'detailgaleri']);
+// Route::get('{website:url}/artikel', [FrontController::class, 'artikel']);
+// Route::get('{website:url}/artikel/{id}', [FrontController::class, 'detailartikel']);
+
+// Route::get('{website:url}/{nama_menu1}', [FrontController::class, 'beranda']);
+// Route::get('{website:url}/{nama_menu2}', [FrontController::class, 'tentangkami']);
+// Route::get('{website:url}/{nama_menu3}', [FrontController::class, 'layanan']);
+// Route::get('{website:url}/{nama_menu4}', [FrontController::class, 'galeri']);
+// Route::get('{website:url}/galeri/{id}', [FrontController::class, 'detailgaleri']);
+// Route::get('{website:url}/{nama_menu5}', [FrontController::class, 'artikel']);
+// Route::get('{website:url}/artikel/{id}', [FrontController::class, 'detailartikel']);

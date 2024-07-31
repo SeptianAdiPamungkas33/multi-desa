@@ -7,7 +7,7 @@
         @csrf
         @method('PUT')
         <div class="mb-5">
-            <label for="judul" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Judul</label>
+            <x-label for="judul">Media</x-label>
             <input type="text" id="judul" value="{{$postingan->judul}}" name="judul" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
         </div>
         <!-- <div class="mb-5">
@@ -16,13 +16,13 @@
         </div> -->
 
         <div class="mb-5">
-            <label for="isi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Isi Artikel</label>
+            <x-label for="isi">Media</x-label>
             <input id="isi" type="hidden" name="isi" value="{{$postingan->isi}}" required>
             <trix-editor input="isi" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></trix-editor>
         </div>
 
         <div>
-            <label for="kategori_id" class="mb-3">Kategori</label>
+            <x-label for="kategori_id">Media</x-label>
             <select id="kategori_id" name="kategori_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 @foreach ($kategori as $item)
                 <option value="{{ $item->id }}" {{ $item->id === $postingan->kategori_id ? 'selected' : '' }}>
@@ -34,7 +34,7 @@
 
         <div class="w-full flex flex-col">
             <div class="mb-3">
-                <label class="">Image</label>
+                <x-label for="media">Media</x-label>
                 <input class="" type="file" name="image">
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">file|mimes:jpeg,png,jpg,gif,svg,mp4,mov,ogg,qt|max:20000</p>
             </div>

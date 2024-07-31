@@ -6,6 +6,7 @@ use App\Models\Header;
 use App\Models\Tentangkami;
 use App\Models\Website;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class WebsiteController extends Controller
 {
@@ -31,5 +32,21 @@ class WebsiteController extends Controller
         $website->update($validatedData);
 
         return redirect()->route('website.edit')->with('success', 'Data berhasil diubah');
+    }
+
+    public function websitelist()
+    {
+        $website = Website::all();
+
+        $user = auth()->user();
+        $editorpenulis = User::where('role_id', 4)
+            ->where('desa_id', $user->desa_id)
+            ->get();
+
+        return view('superadmin.website-List', [
+            'title' => 'Website',
+            'website' => $website,
+            'editorpenulis' => $editorpenulis
+        ]);
     }
 }

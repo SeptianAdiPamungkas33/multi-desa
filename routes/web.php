@@ -36,8 +36,7 @@ use App\Http\Controllers\PendudukController;
 */
 
 //Semua
-Route::get('/', [LoginController::class, 'index']);
-
+Route::get('/', [LoginController::class, 'index'])->middleware('auth');
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login', [LoginController::class, 'prosesLogin'])->name('prosesLogin');
 Route::get('home-super', [LoginController::class, 'homesuper'])->name('homesuper')->middleware('auth');
@@ -70,7 +69,12 @@ Route::resource('postingan', PostinganController::class)->except(['show'])->midd
 Route::put('/postingan/{id}/update-status', [PostinganController::class, 'updateStatus'])->name('postingan.updateStatus');
 
 // Route::resource('grafik', GrafikController::class)->except(['show'])->middleware('auth');
-Route::resource('penduduk', PendudukController::class)->except(['show'])->middleware('auth');
+Route::resource('/penduduk', PendudukController::class)->except(['show'])->middleware('auth');
+Route::get('/penduduk/piechart', [PendudukController::class, 'piechart'])->name('penduduk.piechart');
+Route::get('/laporan-penduduk', [PendudukController::class, 'laporanpenduduk'])->name('penduduk.laporanpenduduk');
+// Route::get('laporan-penduduk-detail/{id}', [PendudukController::class, 'laporanpendudukdetail'])->name('penduduk.laporanpendukdetail');
+Route::get('/laporan-penduduk-detail/{id}', [PendudukController::class, 'laporanpendudukdetail'])->name('laporan-penduduk-detail');
+
 // Route::get('grafik/{id}/edit', [GrafikController::class, 'edit'])->name('grafik.edit');
 // Route::put('grafik/{id}', [GrafikController::class, 'update'])->name('grafik.update');
 

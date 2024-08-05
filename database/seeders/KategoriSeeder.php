@@ -20,12 +20,12 @@ class KategoriSeeder extends Seeder
 
         Kategori::create([
             'nama' => 'Kesehatan',
-            'website_id' => 1,
+            'website_id' => 2,
         ]);
 
         Kategori::create([
             'nama' => 'Pariwisata',
-            'website_id' => 1,
+            'website_id' => 3,
         ]);
 
         Kategori::create([
@@ -35,7 +35,12 @@ class KategoriSeeder extends Seeder
 
         Kategori::create([
             'nama' => 'Budaya',
-            'website_id' => 1,
+            'website_id' => 2,
+        ]);
+
+        Kategori::create([
+            'nama' => 'Budaya',
+            'website_id' => 3,
         ]);
     }
 }

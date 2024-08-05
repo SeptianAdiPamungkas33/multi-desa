@@ -24,32 +24,44 @@ class UserSeeder extends Seeder
             'password' => Hash::make('superadmin123'),
         ]);
 
-        // User::create([
-        //     'username' => 'matesih',
-        //     'email' => 'matesih@gmail.com',
-        //     'nomor_telepon' => '081412112112524',
-        //     'role_id' => '2',
-        //     'desa_id' => '3313050001',
-        //     'password' => Hash::make('matesih12'),
-        // ]);
+        User::create([
+            'username' => 'adminmatesih',
+            'urllink' => 'matesih',
+            'email' => 'matesih@gmail.com',
+            'nomor_telepon' => '081412112112524',
+            'role_id' => '2',
+            'desa_id' => '3313050003',
+            'nama_desa' => 'MATESIH',
+            'kecamatan_id' => '3313050',
+            'nama_kecamatan' => 'MATESIH',
+            'password' => Hash::make('matesih12'),
+        ]);
 
-        // User::create([
-        //     'username' => 'ngadiluwih',
-        //     'email' => 'ngadiluwih@gmail.com',
-        //     'nomor_telepon' => '081412112112524',
-        //     'role_id' => '2',
-        //     'desa_id' => '2',
-        //     'password' => Hash::make('ngadiluwih12'),
-        // ]);
+        User::create([
+            'username' => 'adminngadiluwih',
+            'urllink' => 'ngadiluwih',
+            'email' => 'ngadiluwih@gmail.com',
+            'nomor_telepon' => '081412112112524',
+            'role_id' => '2',
+            'desa_id' => '3313050001',
+            'nama_desa' => 'NGADILUWIH',
+            'kecamatan_id' => '3313050',
+            'nama_kecamatan' => 'MATESIH',
+            'password' => Hash::make('ngadiluwih12'),
+        ]);
 
-        // User::create([
-        //     'username' => 'jumantono',
-        //     'email' => 'jumantono@gmail.com',
-        //     'nomor_telepon' => '081412112112524',
-        //     'role_id' => '2',
-        //     'desa_id' => '3',
-        //     'password' => Hash::make('jumantono12'),
-        // ]);
+        User::create([
+            'username' => 'adminplosorejo',
+            'urllink' => 'plosorejo',
+            'email' => 'plossorejo@gmail.com',
+            'nomor_telepon' => '081412112112524',
+            'role_id' => '2',
+            'desa_id' => '3313050008',
+            'nama_desa' => 'PLOSOREJO',
+            'kecamatan_id' => '3313050',
+            'nama_kecamatan' => 'MATESIH',
+            'password' => Hash::make('plossorejo12'),
+        ]);
 
         // User::create([
         //     'username' => 'penulismatesih12',

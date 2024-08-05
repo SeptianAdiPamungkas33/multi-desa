@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\PendudukChart;
 use App\Models\Penduduk;
 use Illuminate\Http\Request;
 use App\Models\Website;
+use ArielMejiaDev\LarapexCharts\LarapexChart;
+use ArielMejiaDev\LarapexCharts\PieChart;
+use Illuminate\Support\Facades\Http;
+use App\Models\User;
 
 class PendudukController extends Controller
 {
@@ -45,18 +50,43 @@ class PendudukController extends Controller
             'website_id' => $penduduk->website_id,
         ]);
 
-        return view('penulis.penduduk.piechart')->with('success', 'Data Penduduk berhasil diperbarui');
+        return redirect()->route('penduduk.piechart')
+            ->with('success', 'Data Penduduk berhasil diperbarui');
     }
 
-    public function piechart()
+    public function piechart(PendudukChart $chart)
     {
         $website = Website::where('user_id', auth()->user()->id)->first();
         $penduduk = Penduduk::where('website_id', $website->id)->first();
 
         return view('penulis.penduduk.piechart', [
-            'title' => 'Pie Chart Data Penduduk',
-            'website' => $website,
+            'chart' => $chart->build(),
             'penduduk' => $penduduk,
+        ]);
+    }
+
+    public function laporanpenduduk()
+    {
+        $penduduk = Penduduk::all();
+        $admindesa = User::where('role_id', 2)->get();
+
+        return view('penulis.penduduk.laporan-penduduk', [
+            'title' => 'Laporan Data Penduduk',
+            'penduduk' => $penduduk,
+            'admindesa' => $admindesa,
+        ]);
+    }
+
+    public function laporanpendudukdetail($id, PendudukChart $chart)
+    {
+        $penduduk = Penduduk::findOrFail($id);
+        $user = User::findOrFail($penduduk->website->user_id);
+
+        return view('penulis.penduduk.laporan-penduduk-detail', [
+            'title' => 'Laporan Data Penduduk',
+            'penduduk' => $penduduk,
+            'chart' => $chart->build(),
+            'user' => $user,
         ]);
     }
 }

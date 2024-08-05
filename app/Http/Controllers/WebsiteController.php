@@ -37,16 +37,20 @@ class WebsiteController extends Controller
     public function websitelist()
     {
         $website = Website::all();
+        // $penulis = User::all();
 
-        $user = auth()->user();
-        $editorpenulis = User::where('role_id', 4)
-            ->where('desa_id', $user->desa_id)
-            ->get();
+        $penulis = User::where('role_id', 3)->get(); // Mengambil semua penulis dengan role_id 3
+
+        // $user = auth()->user();
+        // $editorpenulis = User::where('role_id', 4)
+        //     ->where('desa_id', $user->desa_id)
+        //     ->get();
 
         return view('superadmin.website-List', [
             'title' => 'Website',
             'website' => $website,
-            'editorpenulis' => $editorpenulis
+            // 'editorpenulis' => $editorpenulis,
+            'penulis' => $penulis,
         ]);
     }
 }

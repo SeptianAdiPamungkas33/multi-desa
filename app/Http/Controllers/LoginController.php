@@ -96,7 +96,7 @@ class LoginController extends Controller
                     return redirect()->route('homesuper');
                 case 2: // role_id 2 for admin desa
                     return redirect()->route('homedesa');
-                case 4: // role_id 4 for penulis
+                case 3: // role_id 4 for penulis
                     return redirect()->route('homepenulis');
                 default:
                     Auth::logout();
@@ -128,7 +128,7 @@ class LoginController extends Controller
     //     $totalAdminDesa = User::where('role_id', 2)->count();
 
     //     Menghitung total penulis berdasarkan desa_id terkait, // Asumsikan role_id 4 adalah penulis
-    //     $totalPenulis = User::where('role_id', 4)
+    //     $totalPenulis = User::where('role_id', 3)
     //         ->where('desa_id', $website->desa_id)
     //         ->count();
 
@@ -141,7 +141,7 @@ class LoginController extends Controller
     //         ->count();
 
     //     $totalGaleri = Galeri::where('website_id')->count();
-    //     $totalPenulis = User::where('role_id', 4)->count();
+    //     $totalPenulis = User::where('role_id', 3)->count();
     //     $totalKategori = Kategori::count();
     //     $totalArtikel = Postingan::count();
 
@@ -184,7 +184,7 @@ class LoginController extends Controller
         $website = Website::where('user_id', $user_id)->first();
 
         // Menghitung total penulis berdasarkan desa_id terkait
-        $totalPenulis = User::where('role_id', 4)
+        $totalPenulis = User::where('role_id', 3)
             ->where('desa_id', $website->desa_id)
             ->count();
 

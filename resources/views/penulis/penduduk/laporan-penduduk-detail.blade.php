@@ -2,7 +2,7 @@
 
 @section('container')
 <div class="p-4 mt-16 sm:ml-64">
-    <p class="text-3xl font-bold text-blue-600 uppercase">Halaman Edit Data Penduduk</p>
+    <p class="text-3xl font-bold text-blue-600 uppercase">Halaman Edit Data Penduduk {{$user->nama_desa}}</p>
     <div class="flex flex-wrap bg-white rounded shadow w-full">
         <div class="w-full lg:w-1/2 p-4">
             <form action="{{ route('penduduk.update', $penduduk->id ?? '') }}" method="post" class="max-w-xl" enctype="multipart/form-data">
@@ -34,10 +34,8 @@
                     <x-label for="persen_perempuan">Persentase Perempuan</x-label>
                     <input type="text" id="persen_perempuan" name="persen_perempuan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ number_format(($penduduk->perempuan / $penduduk->total_penduduk) * 100, 2) ?? '' }}%" disabled />
                 </div>
-                <div class="flex items-center gap-x-4">
-                    <div class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-4 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800">
-                        <a href="/penduduk">Back</a>
-                    </div>
+                <div class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-4 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800">
+                    <a href="/laporan-penduduk">Back</a>
                 </div>
             </form>
         </div>

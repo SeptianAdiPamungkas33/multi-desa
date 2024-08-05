@@ -18,13 +18,13 @@ class DatabaseSeeder extends Seeder
             // DesaSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
-            // WebsiteSeeder::class,
-            // FooterSeeder::class,
-            // HeaderSeeder::class,
-            // TentangKamiSeeder::class,
-            // LayananSeeder::class,
-            // KategoriSeeder::class,
-            // PostinganSeeder::class,
+            WebsiteSeeder::class,
+            FooterSeeder::class,
+            HeaderSeeder::class,
+            TentangKamiSeeder::class,
+            LayananSeeder::class,
+            KategoriSeeder::class,
+            PostinganSeeder::class,
         ]);
     }
 }

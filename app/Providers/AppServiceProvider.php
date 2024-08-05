@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\User;
+use ArielMejiaDev\LarapexCharts\Facades\LarapexChart;
 use Carbon\Carbon;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\App;
@@ -14,9 +15,11 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
+    public function register()
     {
-        //
+        $this->app->singleton(LarapexChart::class, function ($app) {
+            return new LarapexChart;
+        });
     }
 
     /**
@@ -36,11 +39,11 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('admin', function (User $user) {
             return $user->role_id === 2;
         });
-        Gate::define('editor', function (User $user) {
-            return $user->role_id === 3;
-        });
+        // Gate::define('editor', function (User $user) {
+        //     return $user->role_id === 3;
+        // });
         Gate::define('penulis', function (User $user) {
-            return $user->role_id === 4;
+            return $user->role_id === 3;
         });
     }
 }

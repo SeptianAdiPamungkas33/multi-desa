@@ -33,4 +33,14 @@ class Users extends Model
     {
         return $this->belongsTo(Desa::class, 'desa_id');
     }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function website()
+    {
+        return $this->hasMany(Website::class);
+    }
 }

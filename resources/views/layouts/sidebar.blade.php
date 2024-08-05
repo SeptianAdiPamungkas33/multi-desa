@@ -104,6 +104,15 @@
                 </li>
                 @endcan
 
+                @cannot('superadmin')
+                <li>
+                    <a href="/postingan" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <i class="fa-regular fa-newspaper"></i>
+                        <span class="flex-1 ms-3 text-xl whitespace-nowrap">Artikel</span>
+                    </a>
+                </li>
+                @endcannot
+
                 @can('admin')
                 <li>
                     <a href="/penduduk" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -115,21 +124,12 @@
 
                 @can('superadmin')
                 <li>
-                    <a href="/grafik" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <a href="/laporan-penduduk" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="fa-solid fa-layer-group"></i>
-                        <span class="flex-1 ms-3 text-xl whitespace-nowrap">Grafik</span>
+                        <span class="flex-1 ms-3 text-xl whitespace-nowrap">Laporan Penduduk</span>
                     </a>
                 </li>
                 @endcan
-
-                @cannot('superadmin')
-                <li>
-                    <a href="/postingan" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i class="fa-regular fa-newspaper"></i>
-                        <span class="flex-1 ms-3 text-xl whitespace-nowrap">Artikel</span>
-                    </a>
-                </li>
-                @endcannot
             </ul>
         </div>
     </aside>

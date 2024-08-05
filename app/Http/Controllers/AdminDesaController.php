@@ -68,6 +68,7 @@ class AdminDesaController extends Controller
 
         $validatedData = $request->validate([
             'username' => 'required',
+            'urllink' => 'required',
             'nomor_telepon' => 'nullable',
             'password' => 'required',
             'email' => 'required|email|unique:users,email',
@@ -88,7 +89,7 @@ class AdminDesaController extends Controller
         $result = User::create($validatedData);
 
         $website = Website::create([
-            'url' => $request->username,
+            'url' => $request->urllink,
             'desa_id' => $request->desa_id,
             'user_id' => $result->id,
         ]);
@@ -195,9 +196,13 @@ class AdminDesaController extends Controller
     {
         $validatedData = $request->validate([
             'username' => 'required',
+            'urllink' => 'required',
+            'password' => 'nullable',
             'nomor_telepon' => 'nullable',
-            'email' => 'required',
+            'email' => 'required|email',
         ]);
+
+        // dd($validatedData);
 
         $user = User::find($id);
         $user->username = $request->username;
@@ -219,6 +224,7 @@ class AdminDesaController extends Controller
             return redirect()->route('admin-desa.index')->with('error', 'Data gagal diubah');
         }
     }
+
 
 
 

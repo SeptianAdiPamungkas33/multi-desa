@@ -13,17 +13,6 @@ class HeaderSeeder extends Seeder
      */
     public function run(): void
     {
-        // Header::Create([
-        //     'title' => 'Website Matesih',
-        //     'nama_menu1' => 'Beranda',
-        //     'nama_menu2' => 'About US',
-        //     'nama_menu3' => 'Layanan',
-        //     'nama_menu4' => 'Artikel',
-        //     'nama_menu5' => 'Galeri',
-        //     'nama_menu6' => 'Potensi',
-        //     'website_id' => '1',
-        // ]);
-
         $header = Header::create([
             'title' => 'Matesih',
             'nama_menu1' => 'Beranda',
@@ -33,6 +22,7 @@ class HeaderSeeder extends Seeder
             'nama_menu5' => 'Artikel',
             'nama_menu6' => 'Potensi Desa',
             'image' => 'img/default.png',
+            'navbar_color' => 'bg-blue-500',
             'website_id' => 1,
         ]);
 
@@ -45,11 +35,12 @@ class HeaderSeeder extends Seeder
             'nama_menu5' => 'Galeri',
             'nama_menu6' => 'Potensi Desa',
             'image' => 'img/default.png',
+            'navbar_color' => 'bg-blue-500',
             'website_id' => 2,
         ]);
 
         $header = Header::create([
-            'title' => 'Jumantono',
+            'title' => 'Plosorejo',
             'nama_menu1' => 'Beranda',
             'nama_menu2' => 'Tentang Kami',
             'nama_menu3' => 'Layanan',
@@ -57,6 +48,7 @@ class HeaderSeeder extends Seeder
             'nama_menu5' => 'Galeri',
             'nama_menu6' => 'Potensi Desa',
             'image' => 'img/default.png',
+            'navbar_color' => 'bg-blue-500',
             'website_id' => 3,
         ]);
     }

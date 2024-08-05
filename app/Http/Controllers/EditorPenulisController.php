@@ -17,7 +17,7 @@ class EditorPenulisController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $editorpenulis = User::where('role_id', 4)
+        $editorpenulis = User::where('role_id', 3)
             ->where('desa_id', $user->desa_id)
             ->get();
 

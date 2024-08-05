@@ -15,17 +15,17 @@ class WebsiteSeeder extends Seeder
     {
         Website::Create([
             'url' => 'matesih',
-            'desa_id' => '1',
+            'desa_id' => '3313050003',
             'user_id' => '2',
         ]);
         Website::Create([
             'url' => 'ngadiluwih',
-            'desa_id' => '2',
+            'desa_id' => '3313050001',
             'user_id' => '3',
         ]);
         Website::Create([
-            'url' => 'jumantono',
-            'desa_id' => '3',
+            'url' => 'plosorejo',
+            'desa_id' => '3313050008',
             'user_id' => '4',
         ]);
     }

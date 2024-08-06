@@ -13,6 +13,7 @@ use App\Models\Website;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Penduduk;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class AdminDesaController extends Controller
@@ -58,15 +59,18 @@ class AdminDesaController extends Controller
     {
         $user = User::where('username', $request->username)->first();
 
+        // Cek jika username sudah ada
+        $user = User::where('username', $request->username)->first();
         if ($user) {
             return redirect()->route('admin-desa.index')->with('error', 'Username sudah digunakan');
-        } else {
-            $user = User::where('email', $request->email)->first();
-
-            if ($user) {
-                return redirect()->route('admin-desa.index')->with('error', 'Email sudah digunakan');
-            }
         }
+
+        // Cek jika email sudah ada
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
+            return redirect()->route('admin-desa.index')->with('error', 'Email sudah digunakan');
+        }
+
 
         $validatedData = $request->validate([
             'username' => 'required',
@@ -154,22 +158,37 @@ class AdminDesaController extends Controller
             'website_id' => $website->id,
         ]);
 
-        $result = User::create($validatedData);
-
-        // Kirim email setelah user berhasil ditambahkan
         if ($result) {
             $data = [
                 'username' => $request->username,
                 'password' => $request->password, // Password yang belum di-hash
             ];
 
-            // Kirim email ke user yang baru ditambahkan
-            Mail::to($request->email)->send(new SendingEmail($data));
-
-            return redirect()->route('admin-desa.index')->with('success', 'Data berhasil ditambahkan dan email telah dikirim.');
-        } else {
-            return redirect()->route('admin-desa.index')->with('error', 'Data gagal ditambahkan');
+            try {
+                Mail::to($request->email)->send(new SendingEmail($data));
+                Log::info('Email sent successfully to: ' . $request->email);
+                return redirect()->route('admin-desa.index')->with('success', 'Data berhasil ditambahkan dan email telah dikirim.');
+            } catch (\Exception $e) {
+                Log::error('Failed to send email: ' . $e->getMessage());
+                return redirect()->route('admin-desa.index')->with('error', 'Data berhasil ditambahkan tetapi gagal mengirim email.');
+            }
         }
+
+
+        // Kirim email setelah user berhasil ditambahkan
+        // if ($result) {
+        //     $data = [
+        //         'username' => $request->username,
+        //         'password' => $request->password, // Password yang belum di-hash
+        //     ];
+
+        //     // Kirim email ke user yang baru ditambahkan
+        //     Mail::to($request->email)->send(new SendingEmail($data));
+
+        //     return redirect()->route('admin-desa.index')->with('success', 'Data berhasil ditambahkan dan email telah dikirim.');
+        // } else {
+        //     return redirect()->route('admin-desa.index')->with('error', 'Data gagal ditambahkan');
+        // }
     }
 
     // public function store(Request $request)

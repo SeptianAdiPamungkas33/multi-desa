@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Charts\PendudukChart;
+use App\Exports\PendudukExport;
 use App\Models\Penduduk;
 use Illuminate\Http\Request;
 use App\Models\Website;
@@ -10,6 +11,7 @@ use ArielMejiaDev\LarapexCharts\LarapexChart;
 use ArielMejiaDev\LarapexCharts\PieChart;
 use Illuminate\Support\Facades\Http;
 use App\Models\User;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PendudukController extends Controller
 {
@@ -94,5 +96,11 @@ class PendudukController extends Controller
             'chart' => $chart->build(),
             'user' => $user,
         ]);
+    }
+
+    public function export()
+    {
+
+        return Excel::download(new PendudukExport, 'penduduk.xlsx');
     }
 }

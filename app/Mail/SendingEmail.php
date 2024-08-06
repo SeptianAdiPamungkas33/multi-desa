@@ -29,19 +29,25 @@ class SendingEmail extends Mailable
      */
     public function envelope(): Envelope
     {
+        Log::info('Preparing to send email', [
+            'from' => 'septianadi141@gmail.com',
+            'to' => $this->data['email'] ?? 'unknown',
+            'subject' => 'Akun Admin Desa Anda'
+        ]);
+
         return new Envelope(
-            from: new Address('septianadi141@gmail.com', 'Asep Cuy'),
+            from: new Address('septianadi141@gmail.com', 'Asep'),
             subject: 'Akun Admin Desa Anda',
         );
     }
+
 
     /**
      * Get the message content definition.
      */
     public function content(): Content
     {
-        // Debugging: Periksa apakah $this->data memiliki nilai yang benar
-        Log::info('Data yang dikirim ke view:', $this->data);
+        // dd($this->data); // Debugging
 
         return new Content(
             view: 'mail.send-email',

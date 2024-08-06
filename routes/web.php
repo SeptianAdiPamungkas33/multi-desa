@@ -25,6 +25,9 @@ use App\Http\Controllers\SliderController;
 use App\Http\Controllers\UploadKontenController;
 use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\PendudukController;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+// use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +51,7 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout')->middl
 
 //Super Admin
 Route::resource('admin-desa', AdminDesaController::class)->except(['show'])->middleware('auth');
+// Route::get('admin-desa/send-mail', [EmailController::class, 'sendmail']);
 // Route::resource('desa', DesaController::class)->except(['show'])->middleware('auth');
 
 //Admin Desa
@@ -76,6 +80,46 @@ Route::get('/laporan-penduduk', [PendudukController::class, 'laporanpenduduk'])-
 Route::get('/laporan-penduduk-detail/{id}', [PendudukController::class, 'laporanpendudukdetail'])->name('laporan-penduduk-detail');
 
 Route::get('send-mail', [EmailController::class, 'sendmail']);
+
+Route::get('send-test-email', function () {
+    try {
+        Mail::raw('This is a test email', function ($message) {
+            $message->to('your_test_email@mailtrap.io')
+                ->subject('Test Email');
+        });
+        return 'Email sent!';
+    } catch (\Exception $e) {
+        return 'Failed to send email: ' . $e->getMessage();
+    }
+});
+
+
+// Route::get('/test-email', function () {
+//     $data = [
+//         'username' => 'testuser',
+//         'password' => 'testpassword',
+//     ];
+
+//     Log::info('Sending email with data:', $data);
+
+//     Mail::to('your_test_email@mailtrap.io')->send(new \App\Mail\SendingEmail($data));
+
+//     return 'Email sent!';
+// });
+
+// Route::get('/test-email', function () {
+//     Mail::raw('This is a test email', function ($message) {
+//         $message->to('your_test_email@mailtrap.io')
+//             ->subject('Test Email');
+//     });
+
+//     return 'Email sent!';
+// });
+
+
+
+
+Route::get('penduduk-export', [PendudukController::class, 'export']);
 
 //Frontend
 Route::get('{website:url}/{menu}', function ($url, $menu) {

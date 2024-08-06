@@ -2,7 +2,7 @@
 
 @section('container')
 <div class="p-4 mt-16 sm:ml-64">
-    <p class="text-3xl font-bold text-blue-600 uppercase">Halaman Edit Data Penduduk</p>
+    <p class="text-3xl font-bold text-blue-600 uppercase">Halaman Edit Data Penduduk {{$user->nama_desa}}</p>
     <div class="flex flex-wrap bg-white rounded shadow w-full">
         <div class="w-full lg:w-1/2 p-4">
             <form action="{{ route('penduduk.update', $penduduk->id ?? '') }}" method="post" class="max-w-xl" enctype="multipart/form-data">

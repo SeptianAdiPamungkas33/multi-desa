@@ -14,12 +14,13 @@
                 <a href="/{{$website->url}}/galeri" name="nama_menu5" class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">{{$website->header->nama_menu5}}</a> -->
                 <!-- <a href="/{{$website->url}}/potensi" name="nama_menu6" class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">{{$website->header->nama_menu6}}</a> -->
 
-                <a href="/{{$website->url}}/{{$website->header->nama_menu1}}" name="nama_menu1" class="ml-0 mr-0 font-bold duration-100 md:ml-12 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">{{$website->header->nama_menu1}}</a>
+                <a href="/{{$website->url}}/{{$website->header->nama_menu1}}" name="nama_menu1" class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">{{$website->header->nama_menu1}}</a>
                 <a href="/{{$website->url}}/{{$website->header->nama_menu2}}" name="nama_menu2" class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">{{$website->header->nama_menu2}}</a>
                 <a href="/{{$website->url}}/{{$website->header->nama_menu3}}" name="nama_menu3" class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">{{$website->header->nama_menu3}}</a>
                 <a href="/{{$website->url}}/{{$website->header->nama_menu4}}" name="nama_menu4" class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">{{$website->header->nama_menu4}}</a>
                 <a href="/{{$website->url}}/{{$website->header->nama_menu5}}" name="nama_menu5" class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">{{$website->header->nama_menu5}}</a>
-                <!-- <a href="/{{$website->url}}/potensi" name="nama_menu6" class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">{{$website->header->nama_menu6}}</a> -->
+                <a href="/{{$website->url}}/{{$website->header->nama_menu6}}" name="nama_menu6" class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-indigo-600">{{$website->header->nama_menu6}}</a>
+
 
             </nav>
         </div>

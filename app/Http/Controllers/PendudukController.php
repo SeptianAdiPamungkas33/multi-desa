@@ -17,11 +17,13 @@ class PendudukController extends Controller
     {
         $website = Website::where('user_id', auth()->user()->id)->first();
         $penduduk = Penduduk::where('website_id', $website->id)->first();
+        $user = User::findOrFail($penduduk->website->user_id);
 
         return view('penulis.penduduk.penduduk', [
             'title' => 'Edit Data Penduduk',
             'website' => $website,
             'penduduk' => $penduduk,
+            'user' => $user,
         ]);
     }
 
@@ -58,10 +60,12 @@ class PendudukController extends Controller
     {
         $website = Website::where('user_id', auth()->user()->id)->first();
         $penduduk = Penduduk::where('website_id', $website->id)->first();
+        $user = User::findOrFail($penduduk->website->user_id);
 
         return view('penulis.penduduk.piechart', [
             'chart' => $chart->build(),
             'penduduk' => $penduduk,
+            'user' => $user,
         ]);
     }
 
@@ -69,11 +73,13 @@ class PendudukController extends Controller
     {
         $penduduk = Penduduk::all();
         $admindesa = User::where('role_id', 2)->get();
+        // $user = User::findOrFail($penduduk->website->user_id);
 
         return view('penulis.penduduk.laporan-penduduk', [
             'title' => 'Laporan Data Penduduk',
             'penduduk' => $penduduk,
             'admindesa' => $admindesa,
+            // 'user' => $user,
         ]);
     }
 

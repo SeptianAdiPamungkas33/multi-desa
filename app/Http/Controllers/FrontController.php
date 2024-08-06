@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\PendudukChart;
 use App\Models\Artikel;
 use App\Models\Footer;
 use App\Models\Galeri;
 use App\Models\Header;
 use App\Models\Layanan;
+use App\Models\Penduduk;
 use App\Models\Postingan;
+use App\Models\User;
 use App\Models\Website;
 use Illuminate\Http\Request;
 
@@ -15,10 +18,6 @@ class FrontController extends Controller
 {
     public function beranda($url)
     {
-        // dd($url);
-        // $website = Website::where('url', $url)
-        //     ->with('postingan')
-        //     ->get();
         $website = Website::where('url', $url)->first();
         $galeri = Galeri::where('website_id', $website->id)->get();
         $layanan = Layanan::where('website_id', $website->id)->first();
@@ -33,6 +32,7 @@ class FrontController extends Controller
             'galeri' => $galeri,
             'layanan' => $layanan,
             'artikels' => $postingans,
+
         ])->with($data);
     }
 
@@ -44,6 +44,7 @@ class FrontController extends Controller
         return view('front.tentang-kami', [
             'title' => 'Tentang Kami',
             'website' => $website,
+
         ])->with($data);
     }
 
@@ -55,21 +56,20 @@ class FrontController extends Controller
         return view('front.layanan', [
             'title' => 'Layanan',
             'website' => $website,
+
         ])->with($data);
     }
 
     public function galeri($url)
     {
         $website = Website::where('url', $url)->first();
-        // $galeri = Galeri::where('website_id', $website->id)->where('id', $id)->first();
-
         $data['header'] = Header::where('website_id', $website->id)->first();
         $data['footer'] = Footer::where('website_id', $website->id)->first();
 
         return view('front.galeri', [
             'title' => 'Galeri',
             'website' => $website,
-            // 'galeri' => $galeri,
+
         ])->with($data);
     }
 
@@ -89,6 +89,7 @@ class FrontController extends Controller
             'title' => 'Galeri',
             'website' => $website,
             'galeri' => $galeri,
+
         ])->with($data);
     }
 
@@ -96,15 +97,13 @@ class FrontController extends Controller
     public function artikel($url)
     {
         $website = Website::where('url', $url)->first();
-        // $postingan = Postingan::where('website_id', $website->id)->where('id', $id)->first();
-
         $data['header'] = Header::where('website_id', $website->id)->first();
         $data['footer'] = Footer::where('website_id', $website->id)->first();
+
 
         return view('front.artikel', [
             'title' => 'Artikel',
             'website' => $website,
-            // 'postingan' => $postingan,
         ])->with($data);
     }
 
@@ -112,11 +111,7 @@ class FrontController extends Controller
     {
         // dd($url, $menu, $id);
         $website = Website::where('url', $url)->first();
-        $postingan = Postingan::where('website_id', $website->id)->where('id', $id)->first();
-
-        if (!$postingan) {
-            abort(404, 'Postingan not found');
-        }
+        $artikel = Artikel::where('website_id', $website->id)->where('id', $id)->first();
 
         $data['header'] = Header::where('website_id', $website->id)->first();
         $data['footer'] = Footer::where('website_id', $website->id)->first();
@@ -124,20 +119,77 @@ class FrontController extends Controller
         return view('front.artikel-detail', [
             'title' => 'Artikel',
             'website' => $website,
-            'postingan' => $postingan,
+            'artikel' => $artikel,
         ])->with($data);
     }
 
-    // public function potensi($url)
-    // {
-    //     $website = Website::where('url', $url)->first();
-    //     $data['header'] = Header::where('website_id', $website->id)->first();
-    //     $data['footer'] = Footer::where('website_id', $website->id)->first();
-    //     return view('front.potensi', [
-    //         'title' => 'Potensi Desa',
-    //         'website' => $website,
-    //     ])->with($data);
-    // }
+    public function chart(PendudukChart $chart, $url)
+    {
+        // Ambil website berdasarkan URL
+        $website = Website::where('url', $url)->first();
+
+        // Pastikan website ditemukan
+        if (!$website) {
+            abort(404, 'Website not found');
+        }
+
+        // Ambil semua data penduduk terkait dengan website
+        $pendudukCollection = Penduduk::where('website_id', $website->id)->get();
+
+        // Hitung total penduduk
+        $totalLaki = $pendudukCollection->sum('laki');
+        $totalPerempuan = $pendudukCollection->sum('perempuan');
+        $totalPenduduk = $totalLaki + $totalPerempuan;
+        $persenLaki = $totalPenduduk ? ($totalLaki / $totalPenduduk) * 100 : 0;
+        $persenPerempuan = $totalPenduduk ? ($totalPerempuan / $totalPenduduk) * 100 : 0;
+
+        // Ambil header dan footer
+        $data['header'] = Header::where('website_id', $website->id)->first();
+        $data['footer'] = Footer::where('website_id', $website->id)->first();
+
+        return view('front.chart', [
+            'chart' => $chart->build(),
+            'title' => 'Chart',
+            'website' => $website,
+            'penduduk' => $pendudukCollection,
+            'totalLaki' => $totalLaki,
+            'totalPerempuan' => $totalPerempuan,
+            'totalPenduduk' => $totalPenduduk,
+            'persenLaki' => $persenLaki,
+            'persenPerempuan' => $persenPerempuan,
+        ])->with($data);
+    }
+
+
+
+
+    public function detailchart(PendudukChart $chart, $url, $id)
+    {
+        // Ambil website berdasarkan URL
+        $website = Website::where('url', $url)->first();
+        $penduduk = Penduduk::where('website_id', $website->id)->where('id', $id)->first();
+
+        // if (!$website) {
+        //     abort(404, 'Website not found');
+        // }
+
+        // if (!$penduduk) {
+        //     abort(404, 'Penduduk not found');
+        // }
+
+        // Ambil header dan footer
+        $data['header'] = Header::where('website_id', $website->id)->first();
+        $data['footer'] = Footer::where('website_id', $website->id)->first();
+
+        return view('front.chart-detail', [
+            'chart' => $chart->build(),
+            'penduduk' => $penduduk,
+            'website' => $website,
+        ])->with($data);
+    }
+
+
+
 
     public function surat()
     {

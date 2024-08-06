@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendingEmail;
 use App\Models\Desa;
 use App\Models\Footer;
 use App\Models\Header;
@@ -12,6 +13,7 @@ use App\Models\Website;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Penduduk;
+use Illuminate\Support\Facades\Mail;
 
 class AdminDesaController extends Controller
 {
@@ -101,7 +103,7 @@ class AdminDesaController extends Controller
             'nama_menu3' => 'Layanan',
             'nama_menu4' => 'Galeri',
             'nama_menu5' => 'Artikel',
-            'nama_menu6' => 'Potensi Desa',
+            'nama_menu6' => 'Chart',
             'image' => 'img/default.png',
             'website_id' => $website->id,
         ]);
@@ -152,13 +154,63 @@ class AdminDesaController extends Controller
             'website_id' => $website->id,
         ]);
 
+        $result = User::create($validatedData);
 
+        // Kirim email setelah user berhasil ditambahkan
         if ($result) {
-            return redirect()->route('admin-desa.index')->with('success', 'Data berhasil ditambahkan');
+            $data = [
+                'username' => $request->username,
+                'password' => $request->password, // Password yang belum di-hash
+            ];
+
+            // Kirim email ke user yang baru ditambahkan
+            Mail::to($request->email)->send(new SendingEmail($data));
+
+            return redirect()->route('admin-desa.index')->with('success', 'Data berhasil ditambahkan dan email telah dikirim.');
         } else {
             return redirect()->route('admin-desa.index')->with('error', 'Data gagal ditambahkan');
         }
     }
+
+    // public function store(Request $request)
+    // {
+    //     $validatedData = $request->validate([
+    //         'username' => 'required',
+    //         'urllink' => 'required',
+    //         'nomor_telepon' => 'nullable',
+    //         'password' => 'required',
+    //         'email' => 'required|email|unique:users,email',
+    //         'desa_id' => 'required',
+    //         'nama_desa' => 'required',
+    //         'kecamatan_id' => 'required',
+    //     ]);
+
+    //     // Pengecekan apakah desa sudah memiliki admin
+    //     $isAdminExist = User::where('role_id', 2)->where('desa_id', $validatedData['desa_id'])->exists();
+    //     if ($isAdminExist) {
+    //         return redirect()->route('admin-desa.index')->with('error', 'Desa ini sudah memiliki admin');
+    //     }
+
+    //     $validatedData['role_id'] = 2;
+    //     $validatedData['password'] = Hash::make($request->password);
+
+    //     $result = User::create($validatedData);
+
+    //     // Kirim email setelah user berhasil ditambahkan
+    //     if ($result) {
+    //         $data = [
+    //             'username' => $request->username,
+    //             'password' => $request->password, // Password yang belum di-hash
+    //         ];
+
+    //         // Kirim email ke user yang baru ditambahkan
+    //         Mail::to($request->email)->send(new SendingEmail($data));
+
+    //         return redirect()->route('admin-desa.index')->with('success', 'Data berhasil ditambahkan dan email telah dikirim.');
+    //     } else {
+    //         return redirect()->route('admin-desa.index')->with('error', 'Data gagal ditambahkan');
+    //     }
+    // }
 
 
     /**

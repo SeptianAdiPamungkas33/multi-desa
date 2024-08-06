@@ -1,5 +1,6 @@
 <?php
 
+use App\Charts\PendudukChart;
 use App\Http\Controllers\TentangKamiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\DesaController;
 use App\Http\Controllers\EditorPenulisController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FooterController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\GaleriController;
@@ -68,15 +70,12 @@ Route::resource('kategori', KategoriController::class)->except(['show'])->middle
 Route::resource('postingan', PostinganController::class)->except(['show'])->middleware('auth');
 Route::put('/postingan/{id}/update-status', [PostinganController::class, 'updateStatus'])->name('postingan.updateStatus');
 
-// Route::resource('grafik', GrafikController::class)->except(['show'])->middleware('auth');
 Route::resource('/penduduk', PendudukController::class)->except(['show'])->middleware('auth');
 Route::get('/penduduk/piechart', [PendudukController::class, 'piechart'])->name('penduduk.piechart');
 Route::get('/laporan-penduduk', [PendudukController::class, 'laporanpenduduk'])->name('penduduk.laporanpenduduk');
-// Route::get('laporan-penduduk-detail/{id}', [PendudukController::class, 'laporanpendudukdetail'])->name('penduduk.laporanpendukdetail');
 Route::get('/laporan-penduduk-detail/{id}', [PendudukController::class, 'laporanpendudukdetail'])->name('laporan-penduduk-detail');
 
-// Route::get('grafik/{id}/edit', [GrafikController::class, 'edit'])->name('grafik.edit');
-// Route::put('grafik/{id}', [GrafikController::class, 'update'])->name('grafik.update');
+Route::get('send-mail', [EmailController::class, 'sendmail']);
 
 //Frontend
 Route::get('{website:url}/{menu}', function ($url, $menu) {
@@ -95,12 +94,17 @@ Route::get('{website:url}/{menu}', function ($url, $menu) {
             return app(FrontController::class)->galeri($url);
         case $website->header->nama_menu5:
             return app(FrontController::class)->artikel($url);
+        case $website->header->nama_menu6:
+            $chart = app(PendudukChart::class);
+            return app(FrontController::class)->chart($chart, $url);
         default:
             abort(404);
     }
 });
 
 Route::get('{website:url}/{menu}/{id}', [FrontController::class, 'detailartikel']);
+Route::get('{website:url}/{menu}/{id}', [FrontController::class, 'detailgaleri']);
+// Route::get('{website:url}/{menu}/{id}', [FrontController::class, 'detailchart']);
 
 // Route::get('surat', [FrontController::class, 'surat']);
 
@@ -117,12 +121,4 @@ Route::get('some/error/route', function () {
 // Route::get('{website:url}/galeri', [FrontController::class, 'galeri']);
 // Route::get('{website:url}/galeri/{id}', [FrontController::class, 'detailgaleri']);
 // Route::get('{website:url}/artikel', [FrontController::class, 'artikel']);
-// Route::get('{website:url}/artikel/{id}', [FrontController::class, 'detailartikel']);
-
-// Route::get('{website:url}/{nama_menu1}', [FrontController::class, 'beranda']);
-// Route::get('{website:url}/{nama_menu2}', [FrontController::class, 'tentangkami']);
-// Route::get('{website:url}/{nama_menu3}', [FrontController::class, 'layanan']);
-// Route::get('{website:url}/{nama_menu4}', [FrontController::class, 'galeri']);
-// Route::get('{website:url}/galeri/{id}', [FrontController::class, 'detailgaleri']);
-// Route::get('{website:url}/{nama_menu5}', [FrontController::class, 'artikel']);
 // Route::get('{website:url}/artikel/{id}', [FrontController::class, 'detailartikel']);

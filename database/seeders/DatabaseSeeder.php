@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
             TentangKamiSeeder::class,
             LayananSeeder::class,
             KategoriSeeder::class,
-            PostinganSeeder::class,
+            PendudukSeeder::class,
+            // PostinganSeeder::class,
         ]);
     }
 }

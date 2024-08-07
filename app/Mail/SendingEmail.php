@@ -24,45 +24,14 @@ class SendingEmail extends Mailable
         $this->data = $data;
     }
 
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
+    public function build()
     {
-        Log::info('Preparing to send email', [
-            'from' => 'septianadi141@gmail.com',
-            'to' => $this->data['email'] ?? 'unknown',
-            'subject' => 'Akun Admin Desa Anda'
-        ]);
-
-        return new Envelope(
-            from: new Address('septianadi141@gmail.com', 'Asep'),
-            subject: 'Akun Admin Desa Anda',
-        );
-    }
-
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        // dd($this->data); // Debugging
-
-        return new Content(
-            view: 'mail.send-email',
-            with: ['data' => $this->data]
-        );
-    }
-
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
+        return $this
+            ->subject('Akun Admin Desa Anda')
+            ->view('mail.send-email')
+            ->with([
+                'username' => $this->data['username'],
+                'password' => $this->data['password'],
+            ]);
     }
 }

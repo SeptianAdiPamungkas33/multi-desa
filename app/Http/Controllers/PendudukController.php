@@ -7,9 +7,6 @@ use App\Exports\PendudukExport;
 use App\Models\Penduduk;
 use Illuminate\Http\Request;
 use App\Models\Website;
-use ArielMejiaDev\LarapexCharts\LarapexChart;
-use ArielMejiaDev\LarapexCharts\PieChart;
-use Illuminate\Support\Facades\Http;
 use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -65,7 +62,7 @@ class PendudukController extends Controller
         $user = User::findOrFail($penduduk->website->user_id);
 
         return view('penulis.penduduk.piechart', [
-            'chart' => $chart->build(),
+            'chart' => $chart->build($website->id),
             'penduduk' => $penduduk,
             'user' => $user,
         ]);
@@ -75,13 +72,11 @@ class PendudukController extends Controller
     {
         $penduduk = Penduduk::all();
         $admindesa = User::where('role_id', 2)->get();
-        // $user = User::findOrFail($penduduk->website->user_id);
 
         return view('penulis.penduduk.laporan-penduduk', [
             'title' => 'Laporan Data Penduduk',
             'penduduk' => $penduduk,
             'admindesa' => $admindesa,
-            // 'user' => $user,
         ]);
     }
 
@@ -93,14 +88,13 @@ class PendudukController extends Controller
         return view('penulis.penduduk.laporan-penduduk-detail', [
             'title' => 'Laporan Data Penduduk',
             'penduduk' => $penduduk,
-            'chart' => $chart->build(),
+            'chart' => $chart->build($penduduk->website_id),
             'user' => $user,
         ]);
     }
 
     public function export()
     {
-
         return Excel::download(new PendudukExport, 'penduduk.xlsx');
     }
 }

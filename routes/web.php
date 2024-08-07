@@ -25,6 +25,7 @@ use App\Http\Controllers\SliderController;
 use App\Http\Controllers\UploadKontenController;
 use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\PendudukController;
+use App\Mail\SendingEmail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 // use Illuminate\Support\Facades\Mail;
@@ -81,17 +82,32 @@ Route::get('/laporan-penduduk-detail/{id}', [PendudukController::class, 'laporan
 
 Route::get('send-mail', [EmailController::class, 'sendmail']);
 
-Route::get('send-test-email', function () {
-    try {
-        Mail::raw('This is a test email', function ($message) {
-            $message->to('your_test_email@mailtrap.io')
-                ->subject('Test Email');
-        });
-        return 'Email sent!';
-    } catch (\Exception $e) {
-        return 'Failed to send email: ' . $e->getMessage();
-    }
-});
+// Route::get('send-test-email', function () {
+//     try {
+//         Mail::raw('This is a test email', function ($message) {
+//             $message->to('your_test_email@mailtrap.io')
+//                 ->subject('Test Email');
+//         });
+//         return 'Email sent!';
+//     } catch (\Exception $e) {
+//         return 'Failed to send email: ' . $e->getMessage();
+//     }
+// });
+
+// Route::get('/test-email', function () {
+//     $data = [
+//         'username' => 'testuser',
+//         'password' => 'testpassword',
+//     ];
+
+//     try {
+//         Mail::to('email_penerima@domain.com')->send(new SendingEmail($data));
+//         return 'Email sent!';
+//     } catch (\Exception $e) {
+//         return 'Failed to send email: ' . $e->getMessage();
+//     }
+// });
+
 
 
 // Route::get('/test-email', function () {

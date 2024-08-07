@@ -14,10 +14,10 @@ class PendudukChart
         $this->chart = $chart;
     }
 
-    public function build()
+    public function build($website_id)
     {
-        // Fetch data from the penduduk table
-        $penduduk = Penduduk::first();  // Ambil data dari satu penduduk, atau sesuaikan dengan kebutuhan
+        // Fetch data from the penduduk table based on website_id
+        $penduduk = Penduduk::where('website_id', $website_id)->first();
 
         $totalLaki = $penduduk->laki;
         $totalPerempuan = $penduduk->perempuan;

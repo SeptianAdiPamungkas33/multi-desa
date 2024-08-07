@@ -52,7 +52,7 @@
     <!-- Pricing GALERI Section -->
     <div class="relative px-8 py-10 bg-white border-t border-gray-200 md:py-16 lg:py-24 xl:py-40 xl:px-0">
         <div id="pricing" class="container flex flex-col items-center h-full max-w-6xl mx-auto">
-            <h3 class="w-full px-6 mt-2 text-2xl font-black text-center text-gray-900 sm:mt-0 sm:px-0 sm:text-6xl md:px-0">{{$website->header->nama_menu5}}</h3>
+            <h3 class="w-full px-6 mt-2 text-2xl font-black text-center text-gray-900 sm:mt-0 sm:px-0 sm:text-6xl md:px-0">{{$website->header->nama_menu4}}</h3>
             <div class="container w-full mx-auto px-5 py-2 lg:px-16 lg:pt-8">
                 <div class="w-full flex flex-wrap md:-m-2">
                     @foreach($website->galeris->where('status', 'aktif') as $item)

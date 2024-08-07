@@ -48,7 +48,7 @@
     <!-- BEGIN ARTIKEL SECTION -->
     <div class="items-center justify-center w-full overflow-x-hidden mx-8 pt-0 lg:pt-12 pb-12 xl:pt-12 xl:pb-24">
         <div class="flex flex-col w-full text-center font-bold">
-            <p class="text-black text-6xl pb-8">{{$website->header->nama_menu4}}</p>
+            <p class="text-black text-6xl pb-8">{{$website->header->nama_menu5}}</p>
         </div>
         <div class="w-full flex flex-wrap justify-center items-center gap-4">
             @foreach($website->postingan->where('status', 'aktif') as $postingans)

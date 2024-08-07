@@ -62,35 +62,32 @@ class FrontController extends Controller
 
     public function galeri($url)
     {
-        $website = Website::where('url', $url)->first();
-        $data['header'] = Header::where('website_id', $website->id)->first();
-        $data['footer'] = Footer::where('website_id', $website->id)->first();
+        $website = Website::where('url', $url)->firstOrFail();
+        $header = Header::where('website_id', $website->id)->first();
+        $footer = Footer::where('website_id', $website->id)->first();
 
         return view('front.galeri', [
             'title' => 'Galeri',
             'website' => $website,
-
-        ])->with($data);
+            'header' => $header,
+            'footer' => $footer,
+        ]);
     }
 
     public function detailgaleri($url, $id)
     {
-        $website = Website::where('url', $url)->first();
-        $galeri = Galeri::where('website_id', $website->id)->where('id', $id)->first();
-
-        if (!$galeri) {
-            abort(404, 'Galeri not found');
-        }
-
-        $data['header'] = Header::where('website_id', $website->id)->first();
-        $data['footer'] = Footer::where('website_id', $website->id)->first();
+        $website = Website::where('url', $url)->firstOrFail();
+        $galeri = Galeri::where('website_id', $website->id)->where('id', $id)->firstOrFail();
+        $header = Header::where('website_id', $website->id)->first();
+        $footer = Footer::where('website_id', $website->id)->first();
 
         return view('front.galeri-detail', [
-            'title' => 'Galeri',
+            'title' => 'Detail Galeri',
             'website' => $website,
             'galeri' => $galeri,
-
-        ])->with($data);
+            'header' => $header,
+            'footer' => $footer,
+        ]);
     }
 
 
@@ -148,7 +145,7 @@ class FrontController extends Controller
         $data['footer'] = Footer::where('website_id', $website->id)->first();
 
         return view('front.chart', [
-            'chart' => $chart->build(),
+            'chart' => $chart->build($website->id), // Pass the website_id here
             'title' => 'Chart',
             'website' => $website,
             'penduduk' => $pendudukCollection,
@@ -161,35 +158,30 @@ class FrontController extends Controller
     }
 
 
+    // public function detailchart(PendudukChart $chart, $url, $id)
+    // {
+    //     // Ambil website berdasarkan URL
+    //     $website = Website::where('url', $url)->first();
+    //     $penduduk = Penduduk::where('website_id', $website->id)->where('id', $id)->first();
 
+    //     // if (!$website) {
+    //     //     abort(404, 'Website not found');
+    //     // }
 
-    public function detailchart(PendudukChart $chart, $url, $id)
-    {
-        // Ambil website berdasarkan URL
-        $website = Website::where('url', $url)->first();
-        $penduduk = Penduduk::where('website_id', $website->id)->where('id', $id)->first();
+    //     // if (!$penduduk) {
+    //     //     abort(404, 'Penduduk not found');
+    //     // }
 
-        // if (!$website) {
-        //     abort(404, 'Website not found');
-        // }
+    //     // Ambil header dan footer
+    //     $data['header'] = Header::where('website_id', $website->id)->first();
+    //     $data['footer'] = Footer::where('website_id', $website->id)->first();
 
-        // if (!$penduduk) {
-        //     abort(404, 'Penduduk not found');
-        // }
-
-        // Ambil header dan footer
-        $data['header'] = Header::where('website_id', $website->id)->first();
-        $data['footer'] = Footer::where('website_id', $website->id)->first();
-
-        return view('front.chart-detail', [
-            'chart' => $chart->build(),
-            'penduduk' => $penduduk,
-            'website' => $website,
-        ])->with($data);
-    }
-
-
-
+    //     return view('front.chart-detail', [
+    //         'chart' => $chart->build(),
+    //         'penduduk' => $penduduk,
+    //         'website' => $website,
+    //     ])->with($data);
+    // }
 
     public function surat()
     {

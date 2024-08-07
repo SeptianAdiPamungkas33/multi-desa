@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\SendingEmail;
 use App\Models\Desa;
 use App\Models\Footer;
 use App\Models\Header;
@@ -14,7 +13,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Penduduk;
 use Illuminate\Support\Facades\Log;
+use App\Mail\SendingEmail;
 use Illuminate\Support\Facades\Mail;
+// use App\Mail\Email;
+// use Illuminate\Support\Facades\Mail;
 
 class AdminDesaController extends Controller
 {
@@ -151,10 +153,11 @@ class AdminDesaController extends Controller
         ]);
 
         $penduduk = Penduduk::create([
-            'jumlah_penduduk' => 0,
-            'jumlah_kk' => 0,
-            'jumlah_laki' => 0.00,
-            'jumlah_perempuan' => 0.00,
+            'laki' => 1000,
+            'perempuan' => 1000,
+            'total_penduduk' => 2000,
+            'persen_laki' => 50.00,
+            'persen_perempuan' => 50.00,
             'website_id' => $website->id,
         ]);
 
@@ -166,7 +169,6 @@ class AdminDesaController extends Controller
 
             try {
                 Mail::to($request->email)->send(new SendingEmail($data));
-                Log::info('Email sent successfully to: ' . $request->email);
                 return redirect()->route('admin-desa.index')->with('success', 'Data berhasil ditambahkan dan email telah dikirim.');
             } catch (\Exception $e) {
                 Log::error('Failed to send email: ' . $e->getMessage());

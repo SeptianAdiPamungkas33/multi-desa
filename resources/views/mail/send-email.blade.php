@@ -9,6 +9,7 @@
 
 <body>
     <div>
+        <p>Selamat Datang</p>
         <p>Nama Pengguna: {{ $data['username'] ?? 'Tidak tersedia' }}</p>
         <p>Kata Sandi: {{ $data['password'] ?? 'Tidak tersedia' }}</p>
     </div>

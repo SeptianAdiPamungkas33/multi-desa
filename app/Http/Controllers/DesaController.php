@@ -5,25 +5,42 @@ namespace App\Http\Controllers;
 use App\Models\Desa;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class DesaController extends Controller
 {
-    // public function index()
-    // {
-    //     $desa = Desa::all();
+    protected $baseUrl = 'https://www.emsifa.com/api-wilayah-indonesia/api';
 
-    //     return view('desa.index', [
-    //         'title' => 'Desa',
-    //         'desa' => $desa
-    //     ]);
-    // }
+    public function index()
+    {
+        $kabupatenId = '3313';
+        $response = Http::get("{$this->baseUrl}/districts/{$kabupatenId}.json");
 
-    // public function create()
-    // {
-    //     return view('desa.create', [
-    //         'title' => 'Tambah Data Desa'
-    //     ]);
-    // }
+        if ($response->successful()) {
+            $desaData = $response->json();
+            Log::info('Desa Data: ', $desaData); // Log the data to the Laravel log file
+            return view('desa.index', ['desa' => $desaData]);
+        }
+
+        Log::error('Failed to fetch desa data');
+        return view('desa.index', ['desa' => []]);
+    }
+
+    public function detaildesa($id)
+    {
+        $kecamatanId = $id;
+        $response = Http::get("{$this->baseUrl}/villages/{$kecamatanId}.json");
+
+        if ($response->successful()) {
+            $desaData = $response->json();
+            Log::info('Desa Data: ', $desaData); // Log the data to the Laravel log file
+            return view('desa.create', ['desa' => $desaData]);
+        }
+
+        Log::error('Failed to fetch desa data');
+        return view('desa.create', ['desa' => []]);
+    }
 
     // public function store(Request $request)
     // {

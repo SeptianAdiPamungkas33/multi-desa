@@ -10,7 +10,7 @@
             <div class="alert-title">
                 <h4>Whoops!</h4>
             </div>
-            There are some problems with your input.
+            Ada kesalahan dalam inputan
             <ul>
                 @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>

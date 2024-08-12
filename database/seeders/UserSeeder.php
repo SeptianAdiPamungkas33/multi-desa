@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'role_id' => '1',
             // 'desa_id' => '1',
             // 'website_id' => '1',
-            'password' => Hash::make('superadmin123'),
+            'password' => Hash::make('Superadmin*123'),
         ]);
 
         User::create([
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
             'nama_desa' => 'MATESIH',
             'kecamatan_id' => '3313050',
             'nama_kecamatan' => 'MATESIH',
-            'password' => Hash::make('matesih12'),
+            'password' => Hash::make('Matesih*12'),
         ]);
 
         User::create([
@@ -47,7 +47,7 @@ class UserSeeder extends Seeder
             'nama_desa' => 'NGADILUWIH',
             'kecamatan_id' => '3313050',
             'nama_kecamatan' => 'MATESIH',
-            'password' => Hash::make('ngadiluwih12'),
+            'password' => Hash::make('Ngadiluwih*12'),
         ]);
 
         User::create([
@@ -60,34 +60,43 @@ class UserSeeder extends Seeder
             'nama_desa' => 'PLOSOREJO',
             'kecamatan_id' => '3313050',
             'nama_kecamatan' => 'MATESIH',
-            'password' => Hash::make('plossorejo12'),
+            'password' => Hash::make('Plossorejo*12'),
         ]);
 
-        // User::create([
-        //     'username' => 'penulismatesih12',
-        //     'email' => 'penulismatesih12@gmail.com',
-        //     'nomor_telepon' => '081412112112524',
-        //     'role_id' => '4',
-        //     'desa_id' => '1',
-        //     'password' => Hash::make('penulismatesih12'),
-        // ]);
+        User::create([
+            'username' => 'penulismatesih12',
+            'email' => 'penulismatesih12@gmail.com',
+            'nomor_telepon' => '081412112112524',
+            'role_id' => '3',
+            'desa_id' => '3313050003',
+            'nama_desa' => 'MATESIH',
+            'kecamatan_id' => '3313050',
+            'nama_kecamatan' => 'MATESIH',
+            'password' => Hash::make('Penulismatesih*12'),
+        ]);
 
-        // User::create([
-        //     'username' => 'penulisngadiluwih12',
-        //     'email' => 'penulisngadiluwih12@gmail.com',
-        //     'nomor_telepon' => '081412112112524',
-        //     'role_id' => '4',
-        //     'desa_id' => '2',
-        //     'password' => Hash::make('penulisngadiluwih12'),
-        // ]);
+        User::create([
+            'username' => 'penulisngadiluwih12',
+            'email' => 'penulisngadiluwih12@gmail.com',
+            'nomor_telepon' => '081412112112524',
+            'role_id' => '3',
+            'desa_id' => '3313050001',
+            'nama_desa' => 'NGADILUWIH',
+            'kecamatan_id' => '3313050',
+            'nama_kecamatan' => 'MATESIH',
+            'password' => Hash::make('Penulisngadiluwih*12'),
+        ]);
 
-        // User::create([
-        //     'username' => 'penulisjumantono12',
-        //     'email' => 'penulisjumantono12@gmail.com',
-        //     'nomor_telepon' => '081412112112524',
-        //     'role_id' => '4',
-        //     'desa_id' => '3',
-        //     'password' => Hash::make('penulisjumantono12'),
-        // ]);
+        User::create([
+            'username' => 'penulisjumantono12',
+            'email' => 'penulisjumantono12@gmail.com',
+            'nomor_telepon' => '081412112112524',
+            'role_id' => '3',
+            'desa_id' => '3313050008',
+            'nama_desa' => 'PLOSOREJO',
+            'kecamatan_id' => '3313050',
+            'nama_kecamatan' => 'MATESIH',
+            'password' => Hash::make('Penulisjumantono*12'),
+        ]);
     }
 }

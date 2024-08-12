@@ -6,15 +6,17 @@ use App\Models\Desa;
 use App\Models\Footer;
 use App\Models\Header;
 use App\Models\Layanan;
+use App\Models\Penduduk;
 use App\Models\Tentangkami;
 use App\Models\User;
 use App\Models\Website;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Penduduk;
 use Illuminate\Support\Facades\Log;
-use App\Mail\SendingEmail;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\SendingEmail;
+use Illuminate\Support\Facades\Session;
+
 // use App\Mail\Email;
 // use Illuminate\Support\Facades\Mail;
 
@@ -25,7 +27,6 @@ class AdminDesaController extends Controller
      */
     public function index()
     {
-
         $admindesa = User::where('role_id', 2)->get();
 
         return view('admindesa.index', [
@@ -39,13 +40,9 @@ class AdminDesaController extends Controller
      */
     public function create()
     {
-        // $assignedDesaIds = User::whereNotNull('desa_id')->pluck('desa_id');
-        // $desa = Desa::whereNotIn('id', $assignedDesaIds)->get();
-
         $assignedDesaIds = User::where('role_id', 2)->pluck('desa_id')->toArray();
         $desa = Desa::whereNotIn('id', $assignedDesaIds)->get();
 
-        $desa = Desa::all();
         return view('admindesa.create', [
             'title' => 'Tambah Desa',
             'case' => 'post',
@@ -59,8 +56,7 @@ class AdminDesaController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::where('username', $request->username)->first();
-
+        // dd(session()->all());
         // Cek jika username sudah ada
         $user = User::where('username', $request->username)->first();
         if ($user) {
@@ -72,7 +68,6 @@ class AdminDesaController extends Controller
         if ($user) {
             return redirect()->route('admin-desa.index')->with('error', 'Email sudah digunakan');
         }
-
 
         $validatedData = $request->validate([
             'username' => 'required',
@@ -94,103 +89,101 @@ class AdminDesaController extends Controller
         $validatedData['role_id'] = 2;
         $validatedData['password'] = Hash::make($request->password);
 
-        $result = User::create($validatedData);
+        try {
+            // Buat user baru
+            $result = User::create($validatedData);
 
-        $website = Website::create([
-            'url' => $request->urllink,
-            'desa_id' => $request->desa_id,
-            'user_id' => $result->id,
-        ]);
+            // Buat entitas Website terkait
+            $website = Website::create([
+                'url' => $request->urllink,
+                'desa_id' => $request->desa_id,
+                'user_id' => $result->id,
+            ]);
 
-        $header = Header::create([
-            'title' => 'Judul Website',
-            'nama_menu1' => 'Beranda',
-            'nama_menu2' => 'Tentang Kami',
-            'nama_menu3' => 'Layanan',
-            'nama_menu4' => 'Galeri',
-            'nama_menu5' => 'Artikel',
-            'nama_menu6' => 'Chart',
-            'image' => 'img/default.png',
-            'website_id' => $website->id,
-        ]);
+            // Buat header, footer, tentang kami, layanan, dan penduduk terkait
+            Header::create([
+                'title' => 'Judul Website',
+                'nama_menu1' => 'Beranda',
+                'nama_menu2' => 'Tentang Kami',
+                'nama_menu3' => 'Layanan',
+                'nama_menu4' => 'Galeri',
+                'nama_menu5' => 'Artikel',
+                'nama_menu6' => 'Chart',
+                'image' => 'img/default.png',
+                'website_id' => $website->id,
+            ]);
 
-        $footer = Footer::create([
-            'alamat' => 'alamat',
-            'sosmed' => 'sosmed',
-            'email' => 'email',
-            'no_telepon' => 'no_telepon',
-            'jadwal1' => 'jadwal1',
-            'jadwal2' => 'jadwal2',
-            'jadwal3' => 'jadwal3',
-            'link_terkait1' => 'link_terkait1',
-            'link_terkait2' => 'link_terkait2',
-            'link_terkait3' => 'link_terkait3',
-            'link_url1' => 'link_url1',
-            'link_url2' => 'link_url2',
-            'link_url3' => 'link_url3',
-            'navbar_color' => 'bg-blue-500',
-            'website_id' => $website->id,
-        ]);
+            Footer::create([
+                'alamat' => 'alamat',
+                'sosmed' => 'sosmed',
+                'email' => 'email',
+                'no_telepon' => 'no_telepon',
+                'jadwal1' => 'jadwal1',
+                'jadwal2' => 'jadwal2',
+                'jadwal3' => 'jadwal3',
+                'link_terkait1' => 'link_terkait1',
+                'link_terkait2' => 'link_terkait2',
+                'link_terkait3' => 'link_terkait3',
+                'link_url1' => 'link_url1',
+                'link_url2' => 'link_url2',
+                'link_url3' => 'link_url3',
+                'navbar_color' => 'bg-blue-500',
+                'website_id' => $website->id,
+            ]);
 
-        $tentangkami = Tentangkami::create([
-            'judul' => 'Judul',
-            'deskripsi' => 'Deskripsi',
-            'gambar' => 'img/default.png',
-            'website_id' => $website->id,
-        ]);
+            Tentangkami::create([
+                'judul' => 'Judul',
+                'deskripsi' => 'Deskripsi',
+                'gambar' => 'img/default.png',
+                'website_id' => $website->id,
+            ]);
 
-        $layanan = Layanan::create([
-            'judul1' => 'Judul',
-            'deskripsi1' => 'Deskripsi',
-            'gambar1' => 'gambar',
-            'judul2' => 'Judul',
-            'deskripsi2' => 'Deskripsi',
-            'gambar2' => 'gambar',
-            'judul3' => 'Judul',
-            'deskripsi3' => 'Deskripsi',
-            'gambar3' => 'gambar',
-            'website_id' => $website->id,
-        ]);
+            Layanan::create([
+                'judul1' => 'Judul',
+                'deskripsi1' => 'Deskripsi',
+                'gambar1' => 'gambar',
+                'judul2' => 'Judul',
+                'deskripsi2' => 'Deskripsi',
+                'gambar2' => 'gambar',
+                'judul3' => 'Judul',
+                'deskripsi3' => 'Deskripsi',
+                'gambar3' => 'gambar',
+                'website_id' => $website->id,
+            ]);
 
-        $penduduk = Penduduk::create([
-            'laki' => 1000,
-            'perempuan' => 1000,
-            'total_penduduk' => 2000,
-            'persen_laki' => 50.00,
-            'persen_perempuan' => 50.00,
-            'website_id' => $website->id,
-        ]);
+            Penduduk::create([
+                'laki' => 1000,
+                'perempuan' => 1000,
+                'total_penduduk' => 2000,
+                'persen_laki' => 50.00,
+                'persen_perempuan' => 50.00,
+                'website_id' => $website->id,
+                'desa_id' => $request->desa_id,
+                'nama_desa' => $request->nama_desa,
+                'kecamatan_id' => $request->kecamatan_id,
+                'nama_kecamatan' => $request->nama_kecamatan,
+            ]);
 
-        if ($result) {
-            $data = [
-                'username' => $request->username,
-                'password' => $request->password, // Password yang belum di-hash
-            ];
+            // Kirim email jika user berhasil dibuat
+            if ($result) {
+                $data = [
+                    'username' => $request->username,
+                    'password' => $request->password, // Password yang belum di-hash
+                ];
 
-            try {
-                Mail::to($request->email)->send(new SendingEmail($data));
-                return redirect()->route('admin-desa.index')->with('success', 'Data berhasil ditambahkan dan email telah dikirim.');
-            } catch (\Exception $e) {
-                Log::error('Failed to send email: ' . $e->getMessage());
-                return redirect()->route('admin-desa.index')->with('error', 'Data berhasil ditambahkan tetapi gagal mengirim email.');
+                try {
+                    Mail::to($request->email)->send(new SendingEmail($data));
+                    return redirect()->route('admin-desa.index')->with('success', 'Data berhasil ditambahkan dan email telah dikirim.');
+                } catch (\Exception $e) {
+                    Log::error('Failed to send email: ' . $e->getMessage());
+                    return redirect()->route('admin-desa.index')->with('success', 'Data berhasil ditambahkan tetapi gagal mengirim email.');
+                }
             }
+        } catch (\Exception $e) {
+            // Tangani error jika terjadi
+            Log::error('Failed to create admin desa: ' . $e->getMessage());
+            return redirect()->route('admin-desa.index')->with('error', 'Data gagal ditambahkan: ' . $e->getMessage());
         }
-
-
-        // Kirim email setelah user berhasil ditambahkan
-        // if ($result) {
-        //     $data = [
-        //         'username' => $request->username,
-        //         'password' => $request->password, // Password yang belum di-hash
-        //     ];
-
-        //     // Kirim email ke user yang baru ditambahkan
-        //     Mail::to($request->email)->send(new SendingEmail($data));
-
-        //     return redirect()->route('admin-desa.index')->with('success', 'Data berhasil ditambahkan dan email telah dikirim.');
-        // } else {
-        //     return redirect()->route('admin-desa.index')->with('error', 'Data gagal ditambahkan');
-        // }
     }
 
     // public function store(Request $request)

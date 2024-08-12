@@ -23,6 +23,12 @@ return new class extends Migration
             $table->unsignedBigInteger('website_id');
             $table->foreign('website_id')->references('id')->on('website')->onDelete('cascade');
 
+            $table->unsignedBigInteger('desa_id')->nullable();
+            $table->string('nama_desa')->nullable();
+
+            $table->unsignedBigInteger('kecamatan_id')->nullable();
+            $table->string('nama_kecamatan')->nullable();
+
             $table->timestamps();
         });
     }

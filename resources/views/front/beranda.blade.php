@@ -453,29 +453,7 @@
             const items = document.querySelectorAll('[data-carousel-item]');
             const indicators = document.querySelectorAll('[data-carousel-slide-to]');
             let currentIndex = 0;
-            let intervalTime = 3000; // Set interval time in milliseconds
-
-            // function showItem(index) {
-            //     items.forEach((item, i) => {
-            //         if (i === index) {
-            //             item.classList.remove('hidden');
-            //             item.classList.add('active');
-            //         } else {
-            //             item.classList.remove('active');
-            //             item.classList.add('hidden');
-            //         }
-            //     });
-
-            //     indicators.forEach((indicator, i) => {
-            //         if (i === index) {
-            //             indicator.setAttribute('aria-current', 'true');
-            //             indicator.classList.add('bg-blue-500');
-            //         } else {
-            //             indicator.setAttribute('aria-current', 'false');
-            //             indicator.classList.remove('bg-blue-500');
-            //         }
-            //     });
-            // }
+            let intervalTime = 1000; // Set interval time in milliseconds
 
             document.querySelector('[data-carousel-prev]').addEventListener('click', function() {
                 currentIndex = (currentIndex > 0) ? currentIndex - 1 : items.length - 1;

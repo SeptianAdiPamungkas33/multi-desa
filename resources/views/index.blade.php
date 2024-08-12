@@ -108,8 +108,31 @@
                 <!--/Metric Card-->
             </div>
         </div>
+        <div class="w-1/2 flex flex-wrap">
+            <!-- Year selection form -->
+            <div class="w-full p-4">
+                <form method="GET" action="{{ route('homesuper') }}">
+                    <label for="year" class="block text-sm font-medium text-gray-700">Select Year</label>
+                    <select id="year" name="year" onchange="this.form.submit()" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        @foreach($availableYears as $year)
+                        <option value="{{ $year }}" {{ $year == $selectedYear ? 'selected' : '' }}>{{ $year }}</option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
+
+            <!-- Metric Cards -->
+            <!-- Other metric cards -->
+            <div class="w-full p-4 flex items-center justify-center">
+                <div class="w-full max-w-lg">
+                    {!! $chart->container() !!}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endcan
 
+<script src="{{ $chart->cdn() }}"></script>
+{{ $chart->script() }}
 @endsection

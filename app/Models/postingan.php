@@ -35,15 +35,13 @@ class Postingan extends Model
         return $this->belongsTo(Website::class);
     }
 
-    // Accessor untuk mendapatkan URL gambar yang benar
-    public function getImageAttribute($value)
+    public function getGambarAttribute($value)
     {
         return url('images/' . $value); // Menggabungkan path dengan direktori 'images'
     }
 
-    // Mutator untuk menyimpan hanya nama file gambar
-    public function setImageAttribute($value)
+    public function setGambarAttribute($value)
     {
-        $this->attributes['image'] = basename($value);
+        $this->attributes['gambar'] = basename($value);
     }
 }

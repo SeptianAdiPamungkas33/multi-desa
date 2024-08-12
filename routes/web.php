@@ -53,7 +53,8 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout')->middl
 //Super Admin
 Route::resource('admin-desa', AdminDesaController::class)->except(['show'])->middleware('auth');
 // Route::get('admin-desa/send-mail', [EmailController::class, 'sendmail']);
-// Route::resource('desa', DesaController::class)->except(['show'])->middleware('auth');
+Route::get('desa', [DesaController::class, 'index'])->middleware('auth');
+Route::get('desa/{id}', [DesaController::class, 'detaildesa'])->middleware('auth');
 
 //Admin Desa
 Route::resource('editor-penulis', EditorPenulisController::class)->except(['show'])->middleware('auth');
@@ -82,59 +83,6 @@ Route::get('/laporan-penduduk-detail/{id}', [PendudukController::class, 'laporan
 
 Route::get('send-mail', [EmailController::class, 'sendmail']);
 
-// Route::get('send-test-email', function () {
-//     try {
-//         Mail::raw('This is a test email', function ($message) {
-//             $message->to('your_test_email@mailtrap.io')
-//                 ->subject('Test Email');
-//         });
-//         return 'Email sent!';
-//     } catch (\Exception $e) {
-//         return 'Failed to send email: ' . $e->getMessage();
-//     }
-// });
-
-// Route::get('/test-email', function () {
-//     $data = [
-//         'username' => 'testuser',
-//         'password' => 'testpassword',
-//     ];
-
-//     try {
-//         Mail::to('email_penerima@domain.com')->send(new SendingEmail($data));
-//         return 'Email sent!';
-//     } catch (\Exception $e) {
-//         return 'Failed to send email: ' . $e->getMessage();
-//     }
-// });
-
-
-
-// Route::get('/test-email', function () {
-//     $data = [
-//         'username' => 'testuser',
-//         'password' => 'testpassword',
-//     ];
-
-//     Log::info('Sending email with data:', $data);
-
-//     Mail::to('your_test_email@mailtrap.io')->send(new \App\Mail\SendingEmail($data));
-
-//     return 'Email sent!';
-// });
-
-// Route::get('/test-email', function () {
-//     Mail::raw('This is a test email', function ($message) {
-//         $message->to('your_test_email@mailtrap.io')
-//             ->subject('Test Email');
-//     });
-
-//     return 'Email sent!';
-// });
-
-
-
-
 Route::get('penduduk-export', [PendudukController::class, 'export']);
 
 //Frontend
@@ -162,8 +110,25 @@ Route::get('{website:url}/{menu}', function ($url, $menu) {
     }
 });
 
-Route::get('{website:url}/{menu}/{id}', [FrontController::class, 'detailartikel']);
-Route::get('{website:url}/{menu}/{id}', [FrontController::class, 'detailgaleri']);
+Route::get('{website:url}/{menu}/{id}', function ($url, $menu, $id) {
+    // Dapatkan objek website berdasarkan URL
+    $website = App\Models\Website::where('url', $url)->firstOrFail();
+
+    // Cek menu dan arahkan ke controller yang sesuai
+    switch ($menu) {
+        case $website->header->nama_menu4:
+            return app(FrontController::class)->detailgaleri($url, $id);
+        case $website->header->nama_menu5:
+            return app(FrontController::class)->detailartikel($url, $id);
+        default:
+            abort(404);
+    }
+});
+
+
+
+// Route::get('{website:url}/{menu}/{id}', [FrontController::class, 'detailgaleri']);
+// Route::get('{website:url}/{menu}/{id}', [FrontController::class, 'detailartikel']);
 // Route::get('{website:url}/{menu}/{id}', [FrontController::class, 'detailchart']);
 
 // Route::get('surat', [FrontController::class, 'surat']);

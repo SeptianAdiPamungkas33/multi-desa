@@ -3,7 +3,7 @@
 @section('container')
 
 <div class="p-4 mt-16 sm:ml-64">
-    <p class="text-3xl font-bold text-blue-600 uppercase">Halaman Edit Data Penduduk {{ $user->nama_desa ?? 'Unknown' }}</p>
+    <p class="text-3xl font-bold text-blue-600 uppercase">Detail Laporan Penduduk {{ $user->nama_desa ?? 'Unknown' }}</p>
     <div class="flex flex-wrap bg-white rounded shadow w-full">
         <div class="w-full lg:w-1/2 p-4">
             <form action="{{ route('penduduk.update', $penduduk->id ?? '') }}" method="post" class="max-w-xl" enctype="multipart/form-data">
@@ -40,7 +40,7 @@
                         <a href="/penduduk-export" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>
                     </div>
                     <div class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-4 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800">
-                        <a href="/penduduk">Back</a>
+                        <a href="javascript:history.back()">Back</a>
                     </div>
                 </div>
             </form>

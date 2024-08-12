@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendingEmail;
 use App\Models\Artikel;
 use App\Models\Desa;
 use App\Models\Galeri;
@@ -10,7 +11,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class EditorPenulisController extends Controller
 {
@@ -42,17 +44,16 @@ class EditorPenulisController extends Controller
 
     public function store(Request $request)
     {
-
+        // Cek jika username sudah ada
         $user = User::where('username', $request->username)->first();
-
         if ($user) {
             return redirect()->route('editor-penulis.index')->with('error', 'Username sudah digunakan');
-        } else {
-            $user = User::where('email', $request->email)->first();
+        }
 
-            if ($user) {
-                return redirect()->route('editor-penulis.index')->with('error', 'Email sudah digunakan');
-            }
+        // Cek jika email sudah ada
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
+            return redirect()->route('editor-penulis.index')->with('error', 'Email sudah digunakan');
         }
 
         $validatedData = $request->validate([
@@ -62,21 +63,36 @@ class EditorPenulisController extends Controller
             'email' => 'required|email|unique:users,email',
         ]);
 
-        $result = User::create([
-            'username' => $request->username,
-            'nomor_telepon' => $request->nomor_telepon,
-            'password' => Hash::make($request->password),
-            'email' => $request->email,
-            'role_id' => $request->role_id,
-            'desa_id' => auth()->user()->desa_id,
-        ]);
+        $validatedData['role_id'] = $request->role_id;
+        $validatedData['desa_id'] = auth()->user()->desa_id;
+        $validatedData['password'] = Hash::make($request->password);
 
-        if ($result) {
-            return redirect()->route('editor-penulis.index')->with('success', 'Data berhasil ditambahkan');
-        } else {
-            return redirect()->route('editor-penulis.index')->with('error', 'Data gagal ditambahkan');
+        try {
+            // Buat user baru
+            $result = User::create($validatedData);
+
+            // Kirim email jika user berhasil dibuat
+            if ($result) {
+                $data = [
+                    'username' => $request->username,
+                    'password' => $request->password, // Password yang belum di-hash
+                ];
+
+                try {
+                    Mail::to($request->email)->send(new SendingEmail($data));
+                    return redirect()->route('editor-penulis.index')->with('success', 'Data berhasil ditambahkan dan email telah dikirim.');
+                } catch (\Exception $e) {
+                    Log::error('Failed to send email: ' . $e->getMessage());
+                    return redirect()->route('editor-penulis.index')->with('success', 'Data berhasil ditambahkan tetapi gagal mengirim email.');
+                }
+            }
+        } catch (\Exception $e) {
+            // Tangani error jika terjadi
+            Log::error('Failed to create penulis: ' . $e->getMessage());
+            return redirect()->route('editor-penulis.index')->with('error', 'Data gagal ditambahkan: ' . $e->getMessage());
         }
     }
+
 
     public function edit(string $id)
     {

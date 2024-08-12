@@ -93,7 +93,7 @@ class FrontController extends Controller
 
     public function artikel($url)
     {
-        $website = Website::where('url', $url)->first();
+        $website = Website::where('url', $url)->firstOrFail();
         $data['header'] = Header::where('website_id', $website->id)->first();
         $data['footer'] = Footer::where('website_id', $website->id)->first();
 
@@ -104,21 +104,22 @@ class FrontController extends Controller
         ])->with($data);
     }
 
-    public function detailartikel($url, $menu, $id)
+    public function detailartikel($url, $id)
     {
-        // dd($url, $menu, $id);
-        $website = Website::where('url', $url)->first();
-        $artikel = Artikel::where('website_id', $website->id)->where('id', $id)->first();
-
-        $data['header'] = Header::where('website_id', $website->id)->first();
-        $data['footer'] = Footer::where('website_id', $website->id)->first();
+        $website = Website::where('url', $url)->firstOrFail();
+        $postingan = Postingan::where('website_id', $website->id)->where('id', $id)->firstOrFail();
+        $header = Header::where('website_id', $website->id)->first();
+        $footer = Footer::where('website_id', $website->id)->first();
 
         return view('front.artikel-detail', [
             'title' => 'Artikel',
             'website' => $website,
-            'artikel' => $artikel,
-        ])->with($data);
+            'postingan' => $postingan,
+            'header' => $header,
+            'footer' => $footer,
+        ]);
     }
+
 
     public function chart(PendudukChart $chart, $url)
     {
@@ -156,32 +157,6 @@ class FrontController extends Controller
             'persenPerempuan' => $persenPerempuan,
         ])->with($data);
     }
-
-
-    // public function detailchart(PendudukChart $chart, $url, $id)
-    // {
-    //     // Ambil website berdasarkan URL
-    //     $website = Website::where('url', $url)->first();
-    //     $penduduk = Penduduk::where('website_id', $website->id)->where('id', $id)->first();
-
-    //     // if (!$website) {
-    //     //     abort(404, 'Website not found');
-    //     // }
-
-    //     // if (!$penduduk) {
-    //     //     abort(404, 'Penduduk not found');
-    //     // }
-
-    //     // Ambil header dan footer
-    //     $data['header'] = Header::where('website_id', $website->id)->first();
-    //     $data['footer'] = Footer::where('website_id', $website->id)->first();
-
-    //     return view('front.chart-detail', [
-    //         'chart' => $chart->build(),
-    //         'penduduk' => $penduduk,
-    //         'website' => $website,
-    //     ])->with($data);
-    // }
 
     public function surat()
     {

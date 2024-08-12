@@ -9,27 +9,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
-// use App\Models\Artikel;
-use App\Models\kategori;
+use App\Models\Kategori;
 use App\Models\Postingan;
 use App\Models\Galeri;
+use App\Charts\MonthlyUserChart;
+
 
 class LoginController extends Controller
 {
-    // public function index()
-    // {
-    //     if (Auth::check()) {
-    //         return redirect('home');
-    //     } else {
-    //         return view('auth.login', [
-    //             'title' => 'Login'
-    //         ]);
-    //     }
-
-    //     if (!auth()->check() || auth()->user()->role_id != 1) {
-    //         abort(403);
-    //     }
-    // }
 
     public function index()
     {
@@ -58,57 +45,57 @@ class LoginController extends Controller
         }
     }
 
-
-    // public function prosesLogin(Request $request)
-    // {
-    //     // dd($request->all());
-
-    //     $data = [
-    //         'username' => $request->input('username'),
-    //         'password' => $request->input('password')
-    //     ];
-
-    //     $data = $request->validate([
-    //         'username' => ['required'],
-    //         'password' => ['required'],
-    //     ]);
-
-    //     if (Auth::attempt($data)) {
-    //         return redirect('home');
-    //     } else {
-    //         Session::flash('error', 'Username atau Password Salah');
-    //         return redirect('login');
-    //     }
-    // }
-
     public function prosesLogin(Request $request)
     {
-        $data = $request->validate([
-            'username' => ['required'],
-            'password' => ['required'],
+        $credentials = $request->validate([
+            'username' => ['required', 'string'],
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'max:255',
+                'regex:/[a-z]/',      // Mengandung setidaknya satu huruf kecil
+                'regex:/[A-Z]/',      // Mengandung setidaknya satu huruf besar
+                'regex:/[0-9]/',      // Mengandung setidaknya satu angka
+                'regex:/[@$!%*#?&]/'  // Mengandung setidaknya satu karakter spesial
+            ]
+        ], [
+            'username.required' => 'Username harus diisi.',
+            'username.string' => 'Username tidak valid.',
+            'password.required' => 'Password harus diisi.',
+            'password.min' => 'Password harus minimal 8 karakter.',
+            'password.max' => 'Password tidak boleh lebih dari 255 karakter.',
+            'password.regex' => 'Password harus mengandung setidaknya satu huruf besar, satu huruf kecil, satu angka, dan satu karakter spesial (@, $, !, %, *, #, ?, &).'
         ]);
 
-        if (Auth::attempt($data)) {
-            $user = Auth::user();
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            // Check if the username exists
+            $user = User::where('username', $credentials['username'])->first();
+            if (!$user) {
+                return back()->withErrors([
+                    'username' => 'Username tidak valid.',
+                ])->onlyInput('username');
+            }
 
             switch ($user->role_id) {
                 case 1: // role_id 1 for superadmin
                     return redirect()->route('homesuper');
                 case 2: // role_id 2 for admin desa
                     return redirect()->route('homedesa');
-                case 3: // role_id 4 for penulis
+                case 3: // role_id 3 for penulis
                     return redirect()->route('homepenulis');
                 default:
                     Auth::logout();
-                    Session::flash('error', 'Role tidak valid');
-                    return redirect()->route('login');
+                    return redirect()->route('login')->with('error', 'Role tidak valid');
             }
         } else {
-            Session::flash('error', 'Username atau Password Salah');
-            return redirect()->route('login');
+            return back()->withErrors([
+                'loginError' => 'Username atau password salah.',
+            ])->withInput();
         }
     }
-
 
     public function logout()
     {
@@ -116,67 +103,30 @@ class LoginController extends Controller
         return redirect('/login');
     }
 
-    // public function home()
-    // {
-    //     $desa = Desa::all();
-
-    //     $user_id = auth()->user()->id;
-    //     $website = Website::where('user_id', $user_id)->first();
-
-    //     $totalWebsites = Website::count();
-    //     $totalDesa = Desa::count();
-    //     $totalAdminDesa = User::where('role_id', 2)->count();
-
-    //     Menghitung total penulis berdasarkan desa_id terkait, // Asumsikan role_id 4 adalah penulis
-    //     $totalPenulis = User::where('role_id', 3)
-    //         ->where('desa_id', $website->desa_id)
-    //         ->count();
-
-    //     Menghitung total galeri berdasarkan website_id terkait
-    //     $totalGaleri = Galeri::where('website_id', $website->id)
-    //         ->count();
-
-    //     Menghitung total galeri berdasarkan website_id terkait
-    //     $totalArtikel = Postingan::where('website_id', $website->id)
-    //         ->count();
-
-    //     $totalGaleri = Galeri::where('website_id')->count();
-    //     $totalPenulis = User::where('role_id', 3)->count();
-    //     $totalKategori = Kategori::count();
-    //     $totalArtikel = Postingan::count();
-
-    //     return view('index', [
-    //         'title' => 'Home',
-    //         'website' => $website,
-    //         'totalWebsites' => $totalWebsites,
-    //         'totalDesa' => $totalDesa,
-
-    //         'totalAdminDesa' => $totalAdminDesa,
-    //         'totalPenulis' => $totalPenulis,
-
-    //         'totalGaleri' => $totalGaleri,
-    //         'totalKategori' => $totalKategori,
-    //         'totalArtikel' => $totalArtikel,
-    //     ]);
-    // }
-
-    public function homesuper()
+    public function homesuper(MonthlyUserChart $chart, Request $request)
     {
-
         $user_id = auth()->user()->id;
         $website = Website::where('user_id', $user_id)->first();
         $totalWebsites = Website::count();
         $totalDesa = Desa::count();
         $totalAdminDesa = User::where('role_id', 2)->count();
 
+        // Get the selected year from the request or default to the current year
+        $year = $request->input('year', now()->year);
+
         return view('index', [
+            'chart' => $chart->build($year),
             'title' => 'Home',
             'website' => $website,
             'totalWebsites' => $totalWebsites,
             'totalDesa' => $totalDesa,
             'totalAdminDesa' => $totalAdminDesa,
+            'selectedYear' => $year,
+            'availableYears' => range(now()->year - 5, now()->year), // Example range of years
         ]);
     }
+
+
 
     public function homedesa()
     {
